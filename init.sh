@@ -24,7 +24,7 @@ gsettings set org.gnome.settings-daemon.plugins.power lid-close-ac-action 'nothi
 gsettings set org.gnome.settings-daemon.plugins.power lid-close-battery-action 'nothing'
 
 # Install necessary packages
-pacman -S firefox gnome-terminal qemu virt-viewer dnsmasq vde2 bridge-utils openbsd-netcat dmidecode ebtables iptables libguestfs
+pacman -S firefox gnome-terminal qemu virt-viewer dnsmasq vde2 bridge-utils openbsd-netcat dmidecode ebtables libguestfs
 
 # Enable libvirtd service
 systemctl enable libvirtd.service
