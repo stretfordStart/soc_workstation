@@ -133,7 +133,6 @@
     "offline": false,
     "packages": [
         "vim",
-        "firefox",
         "virt-manager"
     ],
     "parallel downloads": 0,
