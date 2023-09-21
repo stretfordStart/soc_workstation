@@ -131,7 +131,8 @@
     "packages": [
         "vim",
         "virt-manager",
-        "firefox"
+        "firefox",
+        "git"
     ],
     "parallel downloads": 0,
     "profile_config": {
