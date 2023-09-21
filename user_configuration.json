@@ -1,0 +1,158 @@
+{
+    "additional-repositories": [],
+    "archinstall-language": "English",
+    "audio_config": {
+        "audio": "pulseaudio"
+    },
+    "bootloader": "Systemd-boot",
+    "config_version": "2.6.0",
+    "debug": false,
+    "disk_config": {
+        "config_type": "default_layout",
+        "device_modifications": [
+            {
+                "device": "/dev/nvme0n1",
+                "partitions": [
+                    {
+                        "btrfs": [],
+                        "flags": [
+                            "Boot"
+                        ],
+                        "fs_type": "fat32",
+                        "length": {
+                            "sector_size": null,
+                            "total_size": null,
+                            "unit": "MiB",
+                            "value": 512
+                        },
+                        "mount_options": [],
+                        "mountpoint": "/boot",
+                        "obj_id": "689e3410-0340-45a2-ad09-8553e6e6ef76",
+                        "start": {
+                            "sector_size": null,
+                            "total_size": null,
+                            "unit": "MiB",
+                            "value": 1
+                        },
+                        "status": "create",
+                        "type": "primary"
+                    },
+                    {
+                        "btrfs": [],
+                        "flags": [],
+                        "fs_type": "ext4",
+                        "length": {
+                            "sector_size": null,
+                            "total_size": null,
+                            "unit": "GiB",
+                            "value": 20
+                        },
+                        "mount_options": [],
+                        "mountpoint": "/",
+                        "obj_id": "7a942316-593f-4358-bb63-3291a80ed36e",
+                        "start": {
+                            "sector_size": null,
+                            "total_size": null,
+                            "unit": "MiB",
+                            "value": 513
+                        },
+                        "status": "create",
+                        "type": "primary"
+                    },
+                    {
+                        "btrfs": [],
+                        "flags": [],
+                        "fs_type": "ext4",
+                        "length": {
+                            "sector_size": null,
+                            "total_size": {
+                                "sector_size": null,
+                                "total_size": null,
+                                "unit": "B",
+                                "value": 512110190592
+                            },
+                            "unit": "Percent",
+                            "value": 100
+                        },
+                        "mount_options": [],
+                        "mountpoint": "/home",
+                        "obj_id": "81cb3eab-d8ba-4f29-b7c6-18c66d281049",
+                        "start": {
+                            "sector_size": null,
+                            "total_size": null,
+                            "unit": "GiB",
+                            "value": 20
+                        },
+                        "status": "create",
+                        "type": "primary"
+                    }
+                ],
+                "wipe": true
+            }
+        ]
+    },
+    "disk_encryption": {
+        "encryption_type": "luks",
+        "partitions": [
+            "81cb3eab-d8ba-4f29-b7c6-18c66d281049",
+            "7a942316-593f-4358-bb63-3291a80ed36e"
+        ]
+    },
+    "hostname": "soc_workstation",
+    "kernels": [
+        "linux-hardened"
+    ],
+    "locale_config": {
+        "kb_layout": "de_CH-latin1",
+        "sys_enc": "UTF-8",
+        "sys_lang": "de_CH"
+    },
+    "mirror_config": {
+        "custom_mirrors": [],
+        "mirror_regions": {
+            "Switzerland": [
+                "https://theswissbay.ch/archlinux/$repo/os/$arch",
+                "https://pkg.adfinis.com/archlinux/$repo/os/$arch",
+                "https://mirror.worldhotspot.org/archlinux/$repo/os/$arch",
+                "https://mirror.ungleich.ch/mirror/packages/archlinux/$repo/os/$arch",
+                "https://mirror.puzzle.ch/archlinux/$repo/os/$arch",
+                "https://mirror.metanet.ch/archlinux/$repo/os/$arch",
+                "https://mirror.init7.net/archlinux/$repo/os/$arch",
+                "http://pkg.adfinis.com/archlinux/$repo/os/$arch",
+                "http://mirror.puzzle.ch/archlinux/$repo/os/$arch",
+                "http://mirror.metanet.ch/archlinux/$repo/os/$arch",
+                "http://mirror.init7.net/archlinux/$repo/os/$arch"
+            ]
+        }
+    },
+    "network_config": {
+        "type": "iso"
+    },
+    "no_pkg_lookups": false,
+    "ntp": true,
+    "offline": false,
+    "packages": [
+        "vim",
+        "firefox",
+        "virt-manager"
+    ],
+    "parallel downloads": 0,
+    "profile_config": {
+        "gfx_driver": "All open-source",
+        "greeter": "sddm",
+        "profile": {
+            "custom_settings": {
+                "Kde": {}
+            },
+            "details": [
+                "Kde"
+            ],
+            "main": "Desktop"
+        }
+    },
+    "script": "guided",
+    "silent": false,
+    "swap": true,
+    "timezone": "Europe/Zurich",
+    "version": "2.6.0"
+}
