@@ -11,37 +11,35 @@ gsettings set org.gnome.desktop.wm.preferences button-layout appmenu:minimize,ma
 gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 
 # Backgrounds
-cp /home/soc_user/soc_workstation/arch.png /home/soc_user/Pictures/arch.png
+cp ~/soc_workstation/arch.png ~/Pictures/arch.png
 gsettings set org.gnome.desktop.background picture-uri 'file:///home/soc_user/Pictures/arch.png'
 gsettings set org.gnome.desktop.screensaver picture-uri 'file:///home/soc_user/Pictures/arch.png'
-cp /home/soc_user/Pictures/arch.png ~/.config/background 
+cp ~/Pictures/arch.png ~/.config/background 
 
 # GTK Theme:
-cd /home/soc_user/Downloads
+cd ~/Downloads
 git clone https://aur.archlinux.org/flat-remix-gtk.git
-chmod 777 flat-remix-gtk
 cd flat-remix-gtk
-su soc_user makepkg -si
+makepkg -si
 gsettings set org.gnome.desktop.interface gtk-theme Flat-Remix-GTK-Blue-Darkest-Solid
 
 # Icon Theme:
-cd /home/soc_user/Downloads
+cd ~/Downloads
 wget https://github.com/vinceliuice/Tela-circle-icon-theme/archive/refs/tags/2023-06-25.zip
 unzip 2023-06-25.zip
 sh Tela-circle-icon-thme-2023-06-25/install.sh
 gsettings set org.gnome.desktop.interface icon-theme Tela-circle
 
 # Set user Theme:
-cd /home/soc_user/Downloads
+cd ~/Downloads
 git clone https://aur.archlinux.org/flat-remix-gnome.git
-chmod 777 flat-remix-gnome
 cd flat-remix-gnome
-su soc_user makepkg -si
+makepkg -si
 gnome-extensions enable user-theme@gnome-shell-extensions.gcampax.github.com
 gsettings set org.gnome.shell.extensions.user-theme name Flat-Remix-Blue-Darkest-fullPanel
 
 # Install Updates
-pacman -Syyu
+# pacman -Syyu
 
 # Configure libvirtd.conf
 # sed -i 's/^#unix_sock_group.*/unix_sock_group = "libvirt"/' /etc/libvirt/libvirtd.conf
