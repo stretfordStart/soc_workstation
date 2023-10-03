@@ -28,8 +28,6 @@ gsettings set org.gnome.desktop.interface gtk-theme Flat-Remix-GTK-Blue-Darkest-
 cd ~/Downloads
 wget https://github.com/vinceliuice/Tela-circle-icon-theme/archive/refs/tags/2023-06-25.zip
 unzip 2023-06-25.zip
-sh Tela-circle-icon-thme-2023-06-25/install.sh
-gsettings set org.gnome.desktop.interface icon-theme Tela-circle
 
 # Set user Theme:
 cd ~/Downloads
@@ -38,6 +36,10 @@ cd flat-remix-gnome
 makepkg -si
 gnome-extensions enable user-theme@gnome-shell-extensions.gcampax.github.com
 gsettings set org.gnome.shell.extensions.user-theme name Flat-Remix-Blue-Darkest-fullPanel
+
+# Set Icon Theme:
+sh Tela-circle-icon-thme-2023-06-25/install.sh
+gsettings set org.gnome.desktop.interface icon-theme Tela-circle
 
 # Install Updates
 # pacman -Syyu
