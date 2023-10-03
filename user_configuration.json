@@ -130,6 +130,7 @@
     "offline": false,
     "packages": [
         "vim",
+        "eog",
         "virt-manager",
         "firefox",
         "git",
