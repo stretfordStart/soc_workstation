@@ -1,33 +1,54 @@
 #!/bin/bash
 
-# Set Swiss locales and Zurich timezone
-echo 'de_CH ISO-8859-1' > /etc/locale.gen
-locale-gen
-echo 'LANG=de_CH.ISO-8859-1' > /etc/locale.conf
-ln -sf /usr/share/zoneinfo/Europe/Zurich /etc/localtime
+pacman -Sy gdm gnome-control-center gnome-menus gnome-settings-daemon gnome-shell gnome-shell-extensions gnome-text-editor gnome-tweaks orca xdg-desktop-portal-gnome xdg-user-dirs-gtk tilix wget dolphin
+systemctl enable gdm libvirtd
 
-# Add Firefox and Terminal to the dock
-su -c "cp /usr/share/applications/firefox.desktop /etc/skel/Desktop/"
-su -c "cp /usr/share/applications/org.gnome.Terminal.desktop /etc/skel/Desktop/"
+echo -e 'if [ $TILIX_ID ] || [ $VTE_VERSION ]; then\n    source /etc/profile.d/vte.sh\nfi' >> ~/.bashrc
 
-# Remove GNOME Web, GNOME Music, and GNOME Software from the dock
-su -c "rm /etc/skel/Desktop/org.gnome.Epiphany.desktop"
-su -c "rm /etc/skel/Desktop/org.gnome.Music.desktop"
-su -c "rm /etc/skel/Desktop/org.gnome.Software.desktop"
+gsettings set org.gnome.desktop.interface show-battery-percentage true
+gsettings set org.gnome.desktop.interface clock-show-weekday true 
+gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type nothing
+gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type nothing
+gsettings set org.gnome.desktop.screensaver idle-activation-enabled false
+gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'ch')]"
+gsettings set org.gnome.desktop.screensaver user-switch-enabled false
+gsettings set org.gnome.desktop.wm.preferences button-layout appmenu:minimize,maximize,close
+gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 
-# Disable energy-saving settings and sleep/suspend
-gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'nothing'
-gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type 'nothing'
-gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 0
-gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 0
-gsettings set org.gnome.settings-daemon.plugins.power lid-close-ac-action 'nothing'
-gsettings set org.gnome.settings-daemon.plugins.power lid-close-battery-action 'nothing'
+# Backgrounds
+cp /home/soc_user/soc_workstation/ressources/arch.png /home/soc_user/Pictures/arch.png
+gsettings set org.gnome.desktop.background picture-uri 'file:///home/soc_user/Pictures/arch.png'
+gsettings set org.gnome.desktop.screensaver picture-uri 'file:///home/soc_user/Pictures/arch.png'
+cp ~/Pictures/arch.png ~/.config/background 
 
-# Install necessary packages
-pacman -S firefox gnome-terminal qemu virt-viewer dnsmasq vde2 bridge-utils openbsd-netcat dmidecode ebtables libguestfs
+# GTK Theme:
+cd ~/Downloads
+git clone https://aur.archlinux.org/flat-remix-gtk.git
+cd flat-remix-gtk
+makepkg -si
+gsettings set org.gnome.desktop.interface gtk-theme Flat-Remix-GTK-Blue-Darkest-Solid
 
-# Enable libvirtd service
-systemctl enable libvirtd.service
+# Icon Theme:
+cd ~/Downloads
+wget https://github.com/vinceliuice/Tela-circle-icon-theme/archive/refs/tags/2023-06-25.zip
+unzip 2023-06-25.zip
+sh Tela-circle-icon-thme-2023-06-25/install.sh
+gsettings set org.gnome.desktop.interface icon-theme Tela-circle
+
+# Set user Theme:
+cd ~/Downloads
+git clone https//aur.archlinux.org/flat-remix-gnome.git
+cd flat-remix-gnome
+makepkg -si
+gnome-extensions enable user-theme@gnome-shell-extensions.gcampax.github.com
+gsettings set org.gnome.shell.extensions.user-theme name Flat-Remix-Blue-Darkest-fullPanel
+
+# Cleanup
+cd ~/Downloads
+rm -rf *
+
+# Install Updates
+pacman -Syyu
 
 # Configure libvirtd.conf
 sed -i 's/^#unix_sock_group.*/unix_sock_group = "libvirt"/' /etc/libvirt/libvirtd.conf
@@ -35,9 +56,6 @@ sed -i 's/^#unix_sock_rw_perms.*/unix_sock_rw_perms = "0770"/' /etc/libvirt/libv
 
 # Add user to the libvirt group
 usermod -a -G libvirt soc_user
-
-# Restart libvirtd.service
-systemctl restart libvirtd.service
 
 # Load KVM module with nested virtualization support
 modprobe -r kvm_intel
