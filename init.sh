@@ -30,7 +30,7 @@ su soc_user makepkg -si
 gsettings set org.gnome.desktop.interface gtk-theme Flat-Remix-GTK-Blue-Darkest-Solid
 
 # Icon Theme:
-cd /home/soc_user/Downloads
+cd ~/Downloads
 wget https://github.com/vinceliuice/Tela-circle-icon-theme/archive/refs/tags/2023-06-25.zip
 unzip 2023-06-25.zip
 sh Tela-circle-icon-thme-2023-06-25/install.sh
@@ -44,10 +44,6 @@ cd flat-remix-gnome
 su soc_user makepkg -si
 gnome-extensions enable user-theme@gnome-shell-extensions.gcampax.github.com
 gsettings set org.gnome.shell.extensions.user-theme name Flat-Remix-Blue-Darkest-fullPanel
-
-# Cleanup
-cd ~/Downloads
-rm -rf *
 
 # Install Updates
 pacman -Syyu
