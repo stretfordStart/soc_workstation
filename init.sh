@@ -13,6 +13,7 @@ gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 # Backgrounds
 cp ~/soc_workstation/arch.png ~/Pictures/arch.png
 gsettings set org.gnome.desktop.background picture-uri 'file:///home/soc_user/Pictures/arch.png'
+gsettings set org.gnome.desktop.background picture-uri-dark 'file:///home/soc_user/Pictures/arch.png'
 gsettings set org.gnome.desktop.screensaver picture-uri 'file:///home/soc_user/Pictures/arch.png'
 cp ~/Pictures/arch.png ~/.config/background 
 
