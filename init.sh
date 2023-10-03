@@ -30,7 +30,7 @@ su soc_user makepkg -si
 gsettings set org.gnome.desktop.interface gtk-theme Flat-Remix-GTK-Blue-Darkest-Solid
 
 # Icon Theme:
-cd ~/Downloads
+cd /home/soc_user/Downloads
 wget https://github.com/vinceliuice/Tela-circle-icon-theme/archive/refs/tags/2023-06-25.zip
 unzip 2023-06-25.zip
 sh Tela-circle-icon-thme-2023-06-25/install.sh
@@ -38,7 +38,7 @@ gsettings set org.gnome.desktop.interface icon-theme Tela-circle
 
 # Set user Theme:
 cd ~/Downloads
-git clone https//aur.archlinux.org/flat-remix-gnome.git
+git clone https://aur.archlinux.org/flat-remix-gnome.git
 chmod 777 flat-remix-gnome
 cd flat-remix-gnome
 su soc_user makepkg -si
