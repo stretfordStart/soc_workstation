@@ -1,6 +1,6 @@
 #!/bin/bash
 
-pacman -Sy gdm gnome-control-center gnome-menus gnome-settings-daemon gnome-shell gnome-shell-extensions gnome-text-editor gnome-tweaks orca xdg-desktop-portal-gnome xdg-user-dirs-gtk tilix wget dolphin
+pacman -Sy gdm gnome-control-center gnome-menus gnome-settings-daemon gnome-shell gnome-shell-extensions gnome-text-editor gnome-tweaks orca xdg-desktop-portal-gnome xdg-user-dirs-gtk tilix wget nautilus
 systemctl enable gdm libvirtd
 
 echo -e 'if [ $TILIX_ID ] || [ $VTE_VERSION ]; then\n    source /etc/profile.d/vte.sh\nfi' >> ~/.bashrc
