@@ -16,7 +16,7 @@ gsettings set org.gnome.desktop.wm.preferences button-layout appmenu:minimize,ma
 gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 
 # Backgrounds
-cp /home/soc_user/soc_workstation/ressources/arch.png /home/soc_user/Pictures/arch.png
+cp /home/soc_user/soc_workstation/arch.png /home/soc_user/Pictures/arch.png
 gsettings set org.gnome.desktop.background picture-uri 'file:///home/soc_user/Pictures/arch.png'
 gsettings set org.gnome.desktop.screensaver picture-uri 'file:///home/soc_user/Pictures/arch.png'
 cp ~/Pictures/arch.png ~/.config/background 
