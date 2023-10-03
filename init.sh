@@ -24,8 +24,9 @@ cp ~/Pictures/arch.png ~/.config/background
 # GTK Theme:
 cd ~/Downloads
 git clone https://aur.archlinux.org/flat-remix-gtk.git
+chmod 777 flat-remix-gtk
 cd flat-remix-gtk
-makepkg -si
+su soc_user makepkg -si
 gsettings set org.gnome.desktop.interface gtk-theme Flat-Remix-GTK-Blue-Darkest-Solid
 
 # Icon Theme:
@@ -38,8 +39,9 @@ gsettings set org.gnome.desktop.interface icon-theme Tela-circle
 # Set user Theme:
 cd ~/Downloads
 git clone https//aur.archlinux.org/flat-remix-gnome.git
+chmod 777 flat-remix-gnome
 cd flat-remix-gnome
-makepkg -si
+su soc_user makepkg -si
 gnome-extensions enable user-theme@gnome-shell-extensions.gcampax.github.com
 gsettings set org.gnome.shell.extensions.user-theme name Flat-Remix-Blue-Darkest-fullPanel
 
