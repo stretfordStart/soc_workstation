@@ -164,9 +164,7 @@
     "version": "2.6.0",
     "custom-commands": [
         "systemctl enable gdm libvirtd",
-        "cd /home/soc_user/",
-        "echo -e 'if [ $TILIX_ID ] || [ $VTE_VERSION ]; then\n    source /etc/profile.d/vte.sh\nfi' >> ~/.bashrc",
-        "gsettings set org.gnome.desktop.input-sources sources \"[('xkb', 'ch')]\"",
-        "git clone https://github.com/stretfordStart/soc_workstation.git"
+        "cd /home/soc_user/; git clone https://github.com/stretfordStart/soc_workstation.git",
+        "echo -e 'if [ $TILIX_ID ] || [ $VTE_VERSION ]; then\n    source /etc/profile.d/vte.sh\nfi' >> /home/soc_user/.bashrc",
     ]
 }
