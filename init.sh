@@ -42,21 +42,4 @@ cd ~/Downloads/Tela-circle-icon-thme-2023-06-25/
 sh install.sh
 gsettings set org.gnome.desktop.interface icon-theme Tela-circle
 
-# Install Updates
-# pacman -Syyu
-
-# Configure libvirtd.conf
-# sed -i 's/^#unix_sock_group.*/unix_sock_group = "libvirt"/' /etc/libvirt/libvirtd.conf
-# sed -i 's/^#unix_sock_rw_perms.*/unix_sock_rw_perms = "0770"/' /etc/libvirt/libvirtd.conf
-
-# Add user to the libvirt group
-# usermod -a -G libvirt soc_user
-
-# Load KVM module with nested virtualization support
-# modprobe -r kvm_intel
-# echo "options kvm-intel nested=1" | tee /etc/modprobe.d/kvm-intel.conf
-# modprobe kvm_intel nested=1
-
-
-
 echo "Customization completed. Reboot your system for the changes to take effect."
