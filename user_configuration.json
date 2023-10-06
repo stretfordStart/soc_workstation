@@ -1,7 +1,7 @@
 {
     "additional-repositories": [],
     "archinstall-language": "English",
-    "bootloader": "Systemd-boot",
+    "bootloader": "grub",
     "config_version": "2.6.0",
     "debug": false,
     "disk_config": {
@@ -147,7 +147,7 @@
         "xdg-user-dirs-gtk",
         "tilix",
         "wget",
-        "nautilus",
+        "nautilus"
     ],
     "parallel downloads": 0,
     "profile_config": {
