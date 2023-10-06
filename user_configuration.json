@@ -148,7 +148,6 @@
         "tilix",
         "wget",
         "nautilus",
-        "eog"
     ],
     "parallel downloads": 0,
     "profile_config": {
