@@ -1,56 +1,90 @@
 #!/bin/bash
 
-gsettings set org.gnome.desktop.interface show-battery-percentage true
-gsettings set org.gnome.desktop.interface clock-show-weekday true 
-gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type nothing
-gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type nothing
-gsettings set org.gnome.desktop.screensaver idle-activation-enabled false
-gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'ch')]"
-gsettings set org.gnome.desktop.screensaver user-switch-enabled false
-gsettings set org.gnome.desktop.wm.preferences button-layout appmenu:minimize,maximize,close
-gsettings set org.gnome.desktop.interface color-scheme prefer-dark
+# Function to check if a command is available
+command_exists() {
+    command -v "$1" >/dev/null 2>&1
+}
 
+# Check for required commands
+if ! command_exists git || ! command_exists wget || ! command_exists unzip; then
+    echo "Error: Required commands not found. Please install git, wget, and unzip."
+    exit 1
+fi
+
+# Variables for paths
+user_home="/home/soc_user"
+picture_path="$user_home/Pictures/arch.png"
+downloads_path="$user_home/Downloads"
+
+# Enable error handling
+set -e
+
+# Function to configure GNOME settings
+configure_gnome_settings() {
+    gsettings set org.gnome.desktop.interface show-battery-percentage true
+    gsettings set org.gnome.desktop.interface clock-show-weekday true 
+    gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type nothing
+    gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type nothing
+    gsettings set org.gnome.desktop.screensaver idle-activation-enabled false
+    gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'ch')]"
+    gsettings set org.gnome.desktop.screensaver user-switch-enabled false
+    gsettings set org.gnome.desktop.wm.preferences button-layout appmenu:minimize,maximize,close
+    gsettings set org.gnome.desktop.interface color-scheme prefer-dark
+}
+
+# Function to install and configure themes
+install_and_configure_themes() {
+    # GTK Theme
+    cd "$downloads_path"
+    git clone https://aur.archlinux.org/flat-remix-gtk.git
+    # Add error handling for makepkg
+    cd flat-remix-gtk
+    makepkg -si --noconfirm
+    gsettings set org.gnome.desktop.interface gtk-theme Flat-Remix-GTK-Blue-Darkest-Solid
+
+    # Icon Theme
+    cd "$downloads_path"
+    wget https://github.com/vinceliuice/Tela-circle-icon-theme/archive/refs/tags/2023-06-25.zip
+    unzip 2023-06-25.zip
+    # Add error handling for installation
+    cd Tela-circle-icon-theme-2023-06-25/
+    sh install.sh
+    gsettings set org.gnome.desktop.interface icon-theme Tela-circle
+}
+
+# Function to enable and configure extensions
+enable_and_configure_extensions() {
+    # Set user Theme
+    cd "$downloads_path"
+    git clone https://aur.archlinux.org/flat-remix-gnome.git
+    cd flat-remix-gnome
+    makepkg -si --noconfirm
+    gnome-extensions enable user-theme@gnome-shell-extensions.gcampax.github.com
+    gsettings set org.gnome.shell.extensions.user-theme name Flat-Remix-Blue-Darkest-fullPanel
+
+    # Dash to Dock
+    cd "$downloads_path"
+    wget https://github.com/micheleg/dash-to-dock/releases/download/extensions.gnome.org-v84/dash-to-dock@micxgx.gmail.com.zip
+    gnome-extensions install dash-to-dock@micxgx.gmail.com.zip
+    # Add error handling for extension installation
+    # Optionally, you can add a check for gnome-shell-restart and perform it if needed
+    gnome-extensions enable dash-to-dock@micxgx.gmail.com
+    gsettings set org.gnome.shell.extensions.dash-to-dock intellihide true
+    gsettings set org.gnome.shell.extensions.dash-to-dock intellihide-mode FOCUS_APPLICATION_WINDOWS
+    gsettings set org.gnome.shell.extensions.dash-to-dock show-trash false
+    gsettings set org.gnome.shell.extensions.dash-to-dock show-icons-notifications-counter false
+}
+
+# Main script
+configure_gnome_settings
 # Backgrounds
-cp ~/soc_workstation/arch.png ~/Pictures/arch.png
-gsettings set org.gnome.desktop.background picture-uri 'file:///home/soc_user/Pictures/arch.png'
-gsettings set org.gnome.desktop.background picture-uri-dark 'file:///home/soc_user/Pictures/arch.png'
-gsettings set org.gnome.desktop.screensaver picture-uri 'file:///home/soc_user/Pictures/arch.png'
-cp ~/Pictures/arch.png ~/.config/background 
+cp "$user_home/soc_workstation/arch.png" "$picture_path"
+gsettings set org.gnome.desktop.background picture-uri "file://$picture_path"
+gsettings set org.gnome.desktop.background picture-uri-dark "file://$picture_path"
+gsettings set org.gnome.desktop.screensaver picture-uri "file://$picture_path"
+cp "$picture_path" ~/.config/background
 
-# GTK Theme:
-cd ~/Downloads
-git clone https://aur.archlinux.org/flat-remix-gtk.git
-cd flat-remix-gtk
-makepkg -si --noconfirm
-gsettings set org.gnome.desktop.interface gtk-theme Flat-Remix-GTK-Blue-Darkest-Solid
-
-# Icon Theme:
-cd ~/Downloads
-wget https://github.com/vinceliuice/Tela-circle-icon-theme/archive/refs/tags/2023-06-25.zip
-unzip 2023-06-25.zip
-wait
-cd Tela-circle-icon-theme-2023-06-25/
-sh install.sh
-wait
-gsettings set org.gnome.desktop.interface icon-theme Tela-circle
-
-# Set user Theme:
-cd ~/Downloads
-git clone https://aur.archlinux.org/flat-remix-gnome.git
-cd flat-remix-gnome
-makepkg -si --noconfirm
-gnome-extensions enable user-theme@gnome-shell-extensions.gcampax.github.com
-gsettings set org.gnome.shell.extensions.user-theme name Flat-Remix-Blue-Darkest-fullPanel
-
-# Dash to Dock
-cd ~/Downloads
-wget https://github.com/micheleg/dash-to-dock/releases/download/extensions.gnome.org-v84/dash-to-dock@micxgx.gmail.com.zip
-gnome-extensions install dash-to-dock@micxgx.gmail.com.zip
-# evtl. noch shell reload nötig
-gnome-extensions enable dash-to-dock@micxgx.gmail.com
-gsettings set org.gnome.shell.extensions.dash-to-dock intellihide true
-gsettings set org.gnome.shell.extensions.dash-to-dock intellihide-mode FOCUS_APPLICATION_WINDOWS
-gsettings set org.gnome.shell.extensions.dash-to-dock show-trash false
-gsettings set org.gnome.shell.extensions.dash-to-dock show-icons-notifications-counter false
+install_and_configure_themes
+enable_and_configure_extensions
 
 echo "Customization completed. Reboot your system for the changes to take effect."
