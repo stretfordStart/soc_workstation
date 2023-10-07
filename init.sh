@@ -43,8 +43,9 @@ gnome-extensions enable user-theme@gnome-shell-extensions.gcampax.github.com
 gsettings set org.gnome.shell.extensions.user-theme name Flat-Remix-Blue-Darkest-fullPanel
 
 # Dash to Dock
-cd ~/soc_workstation
-gnome-extensions install dash.zip
+cd ~/Downloads
+wget https://github.com/micheleg/dash-to-dock/releases/download/extensions.gnome.org-v84/dash-to-dock@micxgx.gmail.com.zip
+gnome-extensions install dash-to-dock@micxgx.gmail.com.zip
 # evtl. noch shell reload nötig
 gnome-extensions enable dash-to-dock@micxgx.gmail.com
 gsettings set org.gnome.shell.extensions.dash-to-dock intellihide true
