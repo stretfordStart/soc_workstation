@@ -21,7 +21,7 @@ cp ~/Pictures/arch.png ~/.config/background
 cd ~/Downloads
 git clone https://aur.archlinux.org/flat-remix-gtk.git
 cd flat-remix-gtk
-makepkg -si
+makepkg -si --noconfirm
 gsettings set org.gnome.desktop.interface gtk-theme Flat-Remix-GTK-Blue-Darkest-Solid
 
 # Icon Theme:
@@ -33,7 +33,7 @@ unzip 2023-06-25.zip
 cd ~/Downloads
 git clone https://aur.archlinux.org/flat-remix-gnome.git
 cd flat-remix-gnome
-makepkg -si
+makepkg -si --noconfirm
 gnome-extensions enable user-theme@gnome-shell-extensions.gcampax.github.com
 gsettings set org.gnome.shell.extensions.user-theme name Flat-Remix-Blue-Darkest-fullPanel
 
