@@ -29,7 +29,7 @@ cd ~/Downloads
 wget https://github.com/vinceliuice/Tela-circle-icon-theme/archive/refs/tags/2023-06-25.zip
 unzip 2023-06-25.zip
 wait
-cd Tela-circle-icon-thme-2023-06-25/
+cd Tela-circle-icon-theme-2023-06-25/
 sh install.sh
 wait
 gsettings set org.gnome.desktop.interface icon-theme Tela-circle
