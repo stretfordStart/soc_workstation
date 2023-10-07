@@ -42,4 +42,14 @@ makepkg -si --noconfirm
 gnome-extensions enable user-theme@gnome-shell-extensions.gcampax.github.com
 gsettings set org.gnome.shell.extensions.user-theme name Flat-Remix-Blue-Darkest-fullPanel
 
+# Dash to Dock
+cd ~/soc_workstation
+gnome-extensions install dash.zip
+# evtl. noch shell reload nötig
+gnome-extensions enable dash-to-dock@micxgx.gmail.com
+gsettings set org.gnome.shell.extensions.dash-to-dock intellihide true
+gsettings set org.gnome.shell.extensions.dash-to-dock intellihide-mode FOCUS_APPLICATION_WINDOWS
+gsettings set org.gnome.shell.extensions.dash-to-dock show-trash false
+gsettings set org.gnome.shell.extensions.dash-to-dock show-icons-notifications-counter false
+
 echo "Customization completed. Reboot your system for the changes to take effect."
