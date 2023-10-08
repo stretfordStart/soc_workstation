@@ -11,6 +11,7 @@ configure_gnome_settings() {
     gsettings set org.gnome.desktop.screensaver user-switch-enabled false
     gsettings set org.gnome.desktop.wm.preferences button-layout appmenu:minimize,maximize,close
     gsettings set org.gnome.desktop.interface color-scheme prefer-dark
+    dconf write /org/gnome/shell/favorite-apps "['firefox.desktop', 'virt-manager.desktop', 'org.gnome.Nautilus,desktop', 'com.gexperts.Tilix.desktop']"
 }
 
 # Function to manage backgrounds
