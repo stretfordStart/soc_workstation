@@ -72,6 +72,6 @@ manage_backgrounds
 install_and_configure_gtk_theme
 install_and_configure_icon_theme
 install_and_configure_user_theme
-install_and_configure_dash_to_dock
+# install_and_configure_dash_to_dock
 
 echo "Customization completed. Reboot your system for the changes to take effect."
