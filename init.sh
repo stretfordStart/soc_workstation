@@ -58,8 +58,7 @@ install_and_configure_dash_to_dock() {
     cd "$HOME/Downloads"
     wget https://github.com/micheleg/dash-to-dock/releases/download/extensions.gnome.org-v84/dash-to-dock@micxgx.gmail.com.zip
     gnome-extensions install dash-to-dock@micxgx.gmail.com.zip
-    gnome-session-quit --logout --force
-    gnome-session --session=gnome
+    dbus-send --session --type=method_call --dest=org.gnome.SessionManager /org/gnome/SessionManager org.gnome.SessionManager.Logout uint32:1
     gnome-extensions enable dash-to-dock@micxgx.gmail.com
     gsettings set org.gnome.shell.extensions.dash-to-dock intellihide true
     gsettings set org.gnome.shell.extensions.dash-to-dock intellihide-mode FOCUS_APPLICATION_WINDOWS
