@@ -176,10 +176,14 @@
         "mv tmpmail /usr/bin/",
         "mkdir /home/soc_user/Downloads",
         "cd /home/soc_user/Downloads; git clone https://aur.archlinux.org/flat-remix-gtk.git",
+        "cd /home/soc_user/Downloads/flat-remix-gtk; sudo -u soc_user makepkg -si --noconfirm",
         "cd /home/soc_user/Downloads; wget https://github.com/vinceliuice/Tela-circle-icon-theme/archive/refs/tags/2023-06-25.zip",
         "cd /home/soc_user/Downloads; unzip 2023-06-25.zip",
         "sh /home/soc_user/Downloads/Tela-circle-icon-theme-2023-06-25/install.sh",
         "cd /home/soc_user/Downloads; git clone https://aur.archlinux.org/flat-remix-gnome.git",
+        "cd /home/soc_user/Downloads/flat-remix-gnome.git; sudo -u soc_user makepkg -si --noconfirm",
+        "gnome-extensions enable user-theme@gnome-shell-extensions.gcampax.github.com",
+        "sudo -u soc_user gsettings set org.gnome.shell.extensions.user-theme name Flat-Remix-Blue-Darkest-fullPanel",
         "cd /home/soc_user/Downloads; git clone https://github.com/vinceliuice/grub2-themes.git",
         "cd /home/soc_user/Downloads/grub2-themes; install.sh -b -t vimix -i white"
     ]
