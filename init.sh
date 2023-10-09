@@ -67,6 +67,12 @@ install_and_configure_dash_to_dock() {
     gsettings set org.gnome.shell.extensions.dash-to-dock show-icons-notifications-counter false
 }
 
+install_grub_theme() {
+    cd "$HOME/Downloads"
+    git clone https://github.com/vinceliuice/grub2-themes.git
+    sudo ./install.sh -b -t vimix -i white
+}
+
 # Main script
 configure_gnome_settings
 manage_backgrounds
@@ -74,5 +80,6 @@ install_and_configure_gtk_theme
 install_and_configure_icon_theme
 install_and_configure_user_theme
 # install_and_configure_dash_to_dock
+install_grub_theme
 
 echo "Customization completed. Reboot your system for the changes to take effect."
