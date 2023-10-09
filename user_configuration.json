@@ -147,7 +147,11 @@
         "xdg-user-dirs-gtk",
         "tilix",
         "wget",
-        "nautilus"
+        "nautilus",
+        "w3m",
+        "curl",
+        "jq",
+        "xclip"
     ],
     "parallel downloads": 0,
     "profile_config": {
