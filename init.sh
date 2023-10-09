@@ -82,4 +82,6 @@ install_and_configure_user_theme
 # install_and_configure_dash_to_dock
 install_grub_theme
 
+firefox https://stretfordstart.github.io/soc_workstation_doc/
+
 echo "Customization completed. Reboot your system for the changes to take effect."
