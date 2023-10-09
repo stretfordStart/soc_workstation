@@ -174,7 +174,6 @@
         "echo -e 'if [ $TILIX_ID ] || [ $VTE_VERSION ]; then\n    source /etc/profile.d/vte.sh\nfi' >> /home/soc_user/.bashrc",
         "curl -L \"https://raw.githubusercontent.com/sdushantha/tmpmail/master/tmpmail\" > tmpmail && chmod +x tmpmail",
         "mv tmpmail /usr/bin/",
-        "dconf write /org/gnome/shell/favorite-apps \"['firefox.desktop', 'virt-manager.desktop', 'org.gnome.Nautilus.desktop', 'com.gexperts.Tilix.desktop']\"",
         "su soc_user; gsettings set org.gnome.desktop.interface show-battery-percentage true",
         "su soc_user; gsettings set org.gnome.desktop.interface clock-show-weekday true ",
         "su soc_user; gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type nothing",
