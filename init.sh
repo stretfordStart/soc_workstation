@@ -43,3 +43,4 @@ gsettings set org.gnome.shell.extensions.user-theme name Flat-Remix-Blue-Darkest
 install_and_configure_dash_to_dock
 
 firefox https://stretfordstart.github.io/soc_workstation_doc/
+exit
