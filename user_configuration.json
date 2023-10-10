@@ -191,6 +191,7 @@
         "gnome-extensions install /home/soc_user/Downloads/dash-to-dock@micxgx.gmail.com.zip",
         "cd /home/soc_user/Downloads; git clone https://github.com/vinceliuice/grub2-themes.git",
         "sh /home/soc_user/Downloads/grub2-themes/install.sh -b -t vimix -i white",
-        "sed -i -e :a -e '$d;N;2,2ba' -e 'P;D' /etc/sudoers"
+        "sed -i -e :a -e '$d;N;2,2ba' -e 'P;D' /etc/sudoers",
+        "echo \"/home/soc_user/soc_workstation/init.sh >> ~/.bashrc\""
     ]
 }
