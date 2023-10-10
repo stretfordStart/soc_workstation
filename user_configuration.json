@@ -188,6 +188,7 @@
         "sudo -u soc_user gsettings set org.gnome.desktop.background picture-uri-dark \"file:///home/soc_user/soc_workstation/arch.png\"",
         "sudo -u soc_user gsettings set org.gnome.desktop.screensaver picture-uri \"file:///home/soc_user/soc_workstation/arch.png\"",
         "sed -i -e \"\\$a root ALL=(soc_user) NOPASSWD: /usr/bin/makepkg\" /etc/sudoers",
+        "sed -i -e \"\\$a soc_user ALL=(ALL) NOPASSWD: /usr/bin/pacman\" /etc/sudoers",
         "cd /home/soc_user/Downloads; git clone https://aur.archlinux.org/flat-remix-gtk.git",
         "chown soc_user:soc_user /home/soc_user/Downloads/flat-remix-gtk",
         "cd /home/soc_user/Downloads/flat-remix-gtk; sudo -u soc_user makepkg -si --noconfirm",
