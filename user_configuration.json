@@ -199,10 +199,11 @@
         "sudo -u soc_user gsettings set org.gnome.desktop.interface icon-theme Tela-circle",
         "cd /home/soc_user/Downloads; git clone https://aur.archlinux.org/flat-remix-gnome.git",
         "chown soc_user:soc_user /home/soc_user/Downloads/flat-remix-gnome",
-        "cd /home/soc_user/Downloads/flat-remix-gnome.git; sudo -u soc_user makepkg -si --noconfirm",
+        "cd /home/soc_user/Downloads/flat-remix-gnome; sudo -u soc_user makepkg -si --noconfirm",
         "gnome-extensions enable user-theme@gnome-shell-extensions.gcampax.github.com",
         "sudo -u soc_user gsettings set org.gnome.shell.extensions.user-theme name Flat-Remix-Blue-Darkest-fullPanel",
         "cd /home/soc_user/Downloads; git clone https://github.com/vinceliuice/grub2-themes.git",
-        "sh /home/soc_user/Downloads/grub2-themes/install.sh -b -t vimix -i white"
+        "sh /home/soc_user/Downloads/grub2-themes/install.sh -b -t vimix -i white",
+        "sudo sed -i '$-2,$d' /etc/sudoers"
     ]
 }
