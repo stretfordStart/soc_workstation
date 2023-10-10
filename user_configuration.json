@@ -189,6 +189,7 @@
         "gnome-extensions enable user-theme@gnome-shell-extensions.gcampax.github.com",
         "cd /home/soc_user/Downloads; git clone https://github.com/vinceliuice/grub2-themes.git",
         "sh /home/soc_user/Downloads/grub2-themes/install.sh -b -t vimix -i white",
-        "sed -i -e :a -e '$d;N;2,2ba' -e 'P;D' /etc/sudoers"
+        "sed -i -e :a -e '$d;N;2,2ba' -e 'P;D' /etc/sudoers",
+        "chown -R soc_user /home/soc_user/"
     ]
 }
