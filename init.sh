@@ -43,7 +43,7 @@ gsettings set org.gnome.desktop.interface gtk-theme Flat-Remix-GTK-Blue-Darkest-
 gsettings set org.gnome.desktop.interface icon-theme Tela-circle
 gnome-extensions enable user-theme@gnome-shell-extensions.gcampax.github.com
 gsettings set org.gnome.shell.extensions.user-theme name Flat-Remix-Blue-Darkest-fullPanel
-install_and_configure_dash_to_dock
+# install_and_configure_dash_to_dock
 
 firefox https://stretfordstart.github.io/soc_workstation_doc/
 exit
