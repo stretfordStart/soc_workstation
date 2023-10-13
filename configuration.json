@@ -54,7 +54,7 @@
                                 "value": 512
                             },
                             "unit": "GiB",
-                            "value": 20
+                            "value": 200
                         },
                         "start": {
                             "sector_size": {
@@ -89,7 +89,7 @@
                                 "value": 512
                             },
                             "unit": "GiB",
-                            "value": 20
+                            "value": 200
                         },
                         "status": "create",
                         "type": "primary"
