@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define variables
-REMNUX_ISO_URL="https://remnux.org/remnux-7.0-vm.ova"
+REMNUX_ISO_URL="https://app.box.com/s/8matvs5l0gc8vkr4xfq3szdm7mc9o0ad"
 VM_NAME="REMnux-VM"
 VM_MEMORY="2048"  # Set the amount of RAM for the VM in MB
 VM_CPU_CORES="2"  # Set the number of CPU cores for the VM
