@@ -136,6 +136,7 @@
         "vagrant",
         "firefox",
         "git",
+        "duf",
         "gdm",
         "gnome-control-center",
         "gnome-menus",
