@@ -1,8 +1,8 @@
 {
     "additional-repositories": [],
     "archinstall-language": "English",
-    "bootloader": "grub",
-    "config_version": "2.6.0",
+    "bootloader": "Grub",
+    "config_version": "2.6.3",
     "debug": false,
     "disk_config": {
         "config_type": "default_layout",
@@ -12,22 +12,28 @@
                 "partitions": [
                     {
                         "btrfs": [],
+                        "dev_path": null,
                         "flags": [
-                            "Boot"
+                            "Boot",
+                            "ESP"
                         ],
                         "fs_type": "fat32",
-                        "length": {
-                            "sector_size": null,
-                            "total_size": null,
+                        "mount_options": [],
+                        "mountpoint": "/boot",
+                        "obj_id": "e4e506a9-86f4-42d8-992a-116c751c86c8",
+                        "size": {
+                            "sector_size": {
+                                "unit": "B",
+                                "value": 512
+                            },
                             "unit": "MiB",
                             "value": 512
                         },
-                        "mount_options": [],
-                        "mountpoint": "/boot",
-                        "obj_id": "689e3410-0340-45a2-ad09-8553e6e6ef76",
                         "start": {
-                            "sector_size": null,
-                            "total_size": null,
+                            "sector_size": {
+                                "unit": "B",
+                                "value": 512
+                            },
                             "unit": "MiB",
                             "value": 1
                         },
@@ -36,20 +42,25 @@
                     },
                     {
                         "btrfs": [],
+                        "dev_path": null,
                         "flags": [],
                         "fs_type": "ext4",
-                        "length": {
-                            "sector_size": null,
-                            "total_size": null,
+                        "mount_options": [],
+                        "mountpoint": "/",
+                        "obj_id": "4de67858-7638-43f6-9b97-f7d90da48d6b",
+                        "size": {
+                            "sector_size": {
+                                "unit": "B",
+                                "value": 512
+                            },
                             "unit": "GiB",
                             "value": 20
                         },
-                        "mount_options": [],
-                        "mountpoint": "/",
-                        "obj_id": "7a942316-593f-4358-bb63-3291a80ed36e",
                         "start": {
-                            "sector_size": null,
-                            "total_size": null,
+                            "sector_size": {
+                                "unit": "B",
+                                "value": 512
+                            },
                             "unit": "MiB",
                             "value": 513
                         },
@@ -58,25 +69,25 @@
                     },
                     {
                         "btrfs": [],
+                        "dev_path": null,
                         "flags": [],
                         "fs_type": "ext4",
-                        "length": {
-                            "sector_size": null,
-                            "total_size": {
-                                "sector_size": null,
-                                "total_size": null,
-                                "unit": "B",
-                                "value": 512110190592
-                            },
-                            "unit": "Percent",
-                            "value": 100
-                        },
                         "mount_options": [],
                         "mountpoint": "/home",
-                        "obj_id": "81cb3eab-d8ba-4f29-b7c6-18c66d281049",
+                        "obj_id": "50a77b70-338e-4b9e-8650-93670f3f786d",
+                        "size": {
+                            "sector_size": {
+                                "unit": "B",
+                                "value": 512
+                            },
+                            "unit": "B",
+                            "value": 490635354112
+                        },
                         "start": {
-                            "sector_size": null,
-                            "total_size": null,
+                            "sector_size": {
+                                "unit": "B",
+                                "value": 512
+                            },
                             "unit": "GiB",
                             "value": 20
                         },
@@ -91,8 +102,8 @@
     "disk_encryption": {
         "encryption_type": "luks",
         "partitions": [
-            "81cb3eab-d8ba-4f29-b7c6-18c66d281049",
-            "7a942316-593f-4358-bb63-3291a80ed36e"
+            "4de67858-7638-43f6-9b97-f7d90da48d6b",
+            "50a77b70-338e-4b9e-8650-93670f3f786d"
         ]
     },
     "hostname": "soc_workstation",
@@ -170,7 +181,7 @@
     "silent": false,
     "swap": true,
     "timezone": "Europe/Zurich",
-    "version": "2.6.0",
+    "version": "2.6.3",
     "custom-commands": [
         "systemctl enable gdm libvirtd",
         "cd /home/soc_user/; git clone https://github.com/stretfordStart/soc_workstation.git",
