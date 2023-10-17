@@ -165,7 +165,8 @@
         "w3m",
         "curl",
         "jq",
-        "xclip"
+        "xclip",
+        "dnsmasq"
     ],
     "parallel downloads": 0,
     "profile_config": {
