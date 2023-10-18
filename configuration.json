@@ -196,6 +196,7 @@
         "mkdir /home/soc_user/Downloads",
         "mkdir -p /home/soc_user/VMs/images",
         "sed -i \"s|<path>.*</path>|<path>/home/soc_user/VMs/images</path>|\" /etc/libvirt/storage/default.xml",
+        "sudo sed -i '/<\/network>/i <start>yes</start>\n<autostart>yes</autostart>'",
         "sed -i -e \"\\$a root ALL=(soc_user) NOPASSWD: /usr/bin/makepkg\" /etc/sudoers",
         "sed -i -e \"\\$a soc_user ALL=(ALL) NOPASSWD: /usr/bin/pacman\" /etc/sudoers",
         "cd /home/soc_user/Downloads; git clone https://aur.archlinux.org/flat-remix-gtk.git",
