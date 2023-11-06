@@ -212,6 +212,6 @@
         "sh /home/soc_user/Downloads/Tela-circle-icon-theme-2023-06-25/install.sh",
         "gnome-extensions enable user-theme@gnome-shell-extensions.gcampax.github.com",
         "sh /home/soc_user/Downloads/grub2-themes/install.sh -b -t vimix -i white",
-        "sed -i -e :a -e '$d;N;2,2ba' -e 'P;D' /etc/sudoers",
+        "sed -i -e :a -e '$d;N;2,2ba' -e 'P;D' /etc/sudoers"
     ]
 }
