@@ -1,117 +1,5 @@
 # FlareVM Creator
 
-# Check if Chocolatey is installed, and install it if not
-if (!(Test-Path 'C:\ProgramData\chocolatey\chocolateyinstall\chocolatey.ps1')) {
-    Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-    Write-Host "Chocolatey installed."
-} else {
-    Write-Host "Chocolatey is already installed."
-}
-
-# Check if the VirtualBox Guest Additions CD/DVD is attached
-$drive = Get-WmiObject Win32_CDROMDrive | Where-Object { $_.Drive -like "*VBOX*" }
-
-if ($drive) {
-    # Navigate to the VirtualBox Guest Additions CD/DVD drive
-    Set-Location -Path $drive.Drive
-
-    # Run the VBoxWindowsAdditions executable with silent installation
-    Start-Process -FilePath "VBoxWindowsAdditions.exe" -ArgumentList "/S" -Wait
-
-    # Check the exit code to ensure successful installation
-    if ($LASTEXITCODE -eq 0) {
-        Write-Host "VirtualBox Guest Additions have been successfully installed."
-        Write-Host "You may need to restart the virtual machine for the changes to take effect."
-    } else {
-        Write-Host "Failed to install VirtualBox Guest Additions."
-    }
-} else {
-    Write-Host "VirtualBox Guest Additions CD/DVD is not attached to the virtual machine. Please attach it manually and rerun this script."
-}
-
-# Check if UAC is enabled and disable it
-if ((Get-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System" -Name "EnableLUA").EnableLUA -eq 1) {
-    Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System" -Name "EnableLUA" -Value 0
-    Write-Host "UAC has been disabled. You need to restart the system for changes to take effect."
-}
-
-# Check if Windows Updates are enabled and disable them if they are active
-if ((Get-Service -Name "wuauserv").Status -eq "Running") {
-    Set-Service -Name "wuauserv" -StartupType "Disabled"
-    Stop-Service -Name "wuauserv"
-    Write-Host "Windows Updates have been disabled. You need to restart the system for changes to take effect."
-} else {
-    Write-Host "Windows Updates are already disabled."
-}
-
-# Uninstall the following apps using Chocolatey
-choco uninstall -y linkedin solitaire filmsandtv whatsapp spotify onedrive xbox-gamebar maps mixedrealityportal paint3d skype tips mswindowsbackup xbox-app
-
-# Remove everything from the start menu (you can customize this for your specific use case)
-#Remove-Item -Path "C:\Users\*\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\*" -Force -Recurse
-
-# Show hidden folders and known file extensions
-#Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Hidden" -Value 1
-#Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "HideFileExt" -Value 0
-
-# Set network profile to Private if it's Public
-if ((Get-NetConnectionProfile).NetworkCategory -eq "Public") {
-    Set-NetConnectionProfile -NetworkCategory Private
-}
-
-# Enable PowerShell Remoting
-Enable-PSRemoting -SkipNetworkProfileCheck -Force
-
-# Disable Shutdown Tracker
-Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Reliability" -Name "ShutdownReasonOn" -Value 0
-
-# Debloat
-RemoveApps "$PSScriptRoot/Appslist.txt" "> Removing pre-installed windows apps..."
-RemoveApps "$PSScriptRoot/GamingAppslist.txt" "> Removing gaming-related windows apps..."
-ClearStartMenu "> Removing all pinned apps from the start menu..."
-RegImport "> Disabling telemetry, diagnostic data, app-launch tracking and targeted ads..." $PSScriptRoot\Regfiles\Disable_Telemetry.reg
-RegImport "> Disabling bing search, bing AI & cortana in windows search..." $PSScriptRoot\Regfiles\Disable_Bing_Cortana_In_Search.reg
-RegImport "> Disabling tips & tricks on the lockscreen..." $PSScriptRoot\Regfiles\Disable_Lockscreen_Tips.reg
-RegImport "> Disabling tips, tricks, suggestions and ads across Windows..." $PSScriptRoot\Regfiles\Disable_Windows_Suggestions.reg
-RegImport "> Restoring the old Windows 10 style context menu..." $PSScriptRoot\Regfiles\Disable_Show_More_Options_Context_Menu.reg
-RegImport "> Aligning taskbar buttons to the left..." $PSScriptRoot\Regfiles\Align_Taskbar_Left.reg
-RegImport "> Hiding the search icon from the taskbar..." $PSScriptRoot\Regfiles\Hide_Search_Taskbar.reg
-RegImport "> Changing taskbar search to icon only..." $PSScriptRoot\Regfiles\Show_Search_Icon.reg
-RegImport "> Changing taskbar search to icon with label..." $PSScriptRoot\Regfiles\Show_Search_Icon_And_Label.reg
-RegImport "> Changing taskbar search to search box..." $PSScriptRoot\Regfiles\Show_Search_Box.reg
-RegImport "> Hiding the taskview button from the taskbar..." $PSScriptRoot\Regfiles\Hide_Taskview_Taskbar.reg
-RegImport "> Disabling Windows copilot..." $PSScriptRoot\Regfiles\Disable_Copilot.reg
-RegImport "> Disabling the widget service and hiding the widget icon from the taskbar..." $PSScriptRoot\Regfiles\Disable_Widgets_Taskbar.reg
-RegImport "> Hiding the chat icon from the taskbar..." $PSScriptRoot\Regfiles\Disable_Chat_Taskbar.reg
-RegImport "> Unhiding hidden files, folders and drives..." $PSScriptRoot\Regfiles\Show_Hidden_Folders.reg
-RegImport "> Enabling file extensions for known file types..." $PSScriptRoot\Regfiles\Show_Extensions_For_Known_File_Types.reg
-RegImport "> Hiding duplicate removable drive entries from the windows explorer navigation pane..." $PSScriptRoot\Regfiles\Hide_duplicate_removable_drives_from_navigation_pane_of_File_Explorer.reg
-RegImport "> Hiding the onedrive folder from the windows explorer navigation pane..." $PSScriptRoot\Regfiles\Hide_Onedrive_Folder.reg
-RegImport "> Hiding the 3D objects folder from the windows explorer navigation pane..." $PSScriptRoot\Regfiles\Hide_3D_Objects_Folder.reg
-RegImport "> Hiding the music folder from the windows explorer navigation pane..." $PSScriptRoot\Regfiles\Hide_Music_folder.reg
-RegImport "> Hiding 'Include in library' in the context menu..." $PSScriptRoot\Regfiles\Disable_Include_in_library_from_context_menu.reg
-RegImport "> Hiding 'Give access to' in the context menu..." $PSScriptRoot\Regfiles\Disable_Give_access_to_context_menu.reg
-RegImport "> Hiding 'Share' in the context menu..." $PSScriptRoot\Regfiles\Disable_Share_from_context_menu.reg
-
-# Enable WinRM
-winrm quickconfig -q
-winrm set winrm/config/winrs @{MaxMemoryPerShellMB="512"}
-winrm set winrm/config @{MaxTimeoutms="1800000"}
-winrm set winrm/config/service @{AllowUnencrypted="true"}
-winrm set winrm/config/service/auth @{Basic="true"}
-Set-Service -Name WinRM -StartupType "Automatic"
-
-RestartExplorer
-
-(New-Object net.webclient).DownloadFile('https://raw.githubusercontent.com/mandiant/flare-vm/main/install.ps1',"install.ps1")
-Unblock-File .\install.ps1
-Set-ExecutionPolicy Unrestricted -Force
-Invoke-Expression -Command "install.ps1 -customConfig soc.xml -password malware -noWait -noGui"
-
-Write-Output ""
-Write-Output ""
-Write-Output "Script completed successfully!"
-
 
 # Reads list of apps from file and removes them for all user accounts and from the OS image.
 function RemoveApps {
@@ -226,3 +114,106 @@ function ClearStartMenu {
     Copy-Item -Path $startmenuTemplate -Destination $defaultProfile -Force
     Write-Output "Copied start menu template to default user folder"
 }
+
+
+# Check if Chocolatey is installed, and install it if not
+if (!(Test-Path 'C:\ProgramData\chocolatey\chocolateyinstall\chocolatey.ps1')) {
+    Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+    Write-Host "Chocolatey installed."
+} else {
+    Write-Host "Chocolatey is already installed."
+}
+
+# Check if the VirtualBox Guest Additions CD/DVD is attached
+$drive = Get-WmiObject Win32_CDROMDrive | Where-Object { $_.Drive -like "*VBOX*" }
+
+if ($drive) {
+    # Navigate to the VirtualBox Guest Additions CD/DVD drive
+    Set-Location -Path $drive.Drive
+
+    # Run the VBoxWindowsAdditions executable with silent installation
+    Start-Process -FilePath "VBoxWindowsAdditions.exe" -ArgumentList "/S" -Wait
+
+    # Check the exit code to ensure successful installation
+    if ($LASTEXITCODE -eq 0) {
+        Write-Host "VirtualBox Guest Additions have been successfully installed."
+        Write-Host "You may need to restart the virtual machine for the changes to take effect."
+    } else {
+        Write-Host "Failed to install VirtualBox Guest Additions."
+    }
+} else {
+    Write-Host "VirtualBox Guest Additions CD/DVD is not attached to the virtual machine. Please attach it manually and rerun this script."
+}
+
+# Check if UAC is enabled and disable it
+if ((Get-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System" -Name "EnableLUA").EnableLUA -eq 1) {
+    Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System" -Name "EnableLUA" -Value 0
+    Write-Host "UAC has been disabled. You need to restart the system for changes to take effect."
+}
+
+# Check if Windows Updates are enabled and disable them if they are active
+if ((Get-Service -Name "wuauserv").Status -eq "Running") {
+    Set-Service -Name "wuauserv" -StartupType "Disabled"
+    Stop-Service -Name "wuauserv"
+    Write-Host "Windows Updates have been disabled. You need to restart the system for changes to take effect."
+} else {
+    Write-Host "Windows Updates are already disabled."
+}
+
+# Set network profile to Private if it's Public
+if ((Get-NetConnectionProfile).NetworkCategory -eq "Public") {
+    Set-NetConnectionProfile -NetworkCategory Private
+}
+
+# Enable PowerShell Remoting
+Enable-PSRemoting -SkipNetworkProfileCheck -Force
+
+# Disable Shutdown Tracker
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Reliability" -Name "ShutdownReasonOn" -Value 0
+
+# Debloat
+RemoveApps "$PSScriptRoot/Appslist.txt" "> Removing pre-installed windows apps..."
+RemoveApps "$PSScriptRoot/GamingAppslist.txt" "> Removing gaming-related windows apps..."
+ClearStartMenu "> Removing all pinned apps from the start menu..."
+RegImport "> Disabling telemetry, diagnostic data, app-launch tracking and targeted ads..." $PSScriptRoot\Regfiles\Disable_Telemetry.reg
+RegImport "> Disabling bing search, bing AI & cortana in windows search..." $PSScriptRoot\Regfiles\Disable_Bing_Cortana_In_Search.reg
+RegImport "> Disabling tips & tricks on the lockscreen..." $PSScriptRoot\Regfiles\Disable_Lockscreen_Tips.reg
+RegImport "> Disabling tips, tricks, suggestions and ads across Windows..." $PSScriptRoot\Regfiles\Disable_Windows_Suggestions.reg
+RegImport "> Restoring the old Windows 10 style context menu..." $PSScriptRoot\Regfiles\Disable_Show_More_Options_Context_Menu.reg
+RegImport "> Aligning taskbar buttons to the left..." $PSScriptRoot\Regfiles\Align_Taskbar_Left.reg
+RegImport "> Hiding the search icon from the taskbar..." $PSScriptRoot\Regfiles\Hide_Search_Taskbar.reg
+RegImport "> Changing taskbar search to icon only..." $PSScriptRoot\Regfiles\Show_Search_Icon.reg
+RegImport "> Changing taskbar search to icon with label..." $PSScriptRoot\Regfiles\Show_Search_Icon_And_Label.reg
+RegImport "> Changing taskbar search to search box..." $PSScriptRoot\Regfiles\Show_Search_Box.reg
+RegImport "> Hiding the taskview button from the taskbar..." $PSScriptRoot\Regfiles\Hide_Taskview_Taskbar.reg
+RegImport "> Disabling Windows copilot..." $PSScriptRoot\Regfiles\Disable_Copilot.reg
+RegImport "> Disabling the widget service and hiding the widget icon from the taskbar..." $PSScriptRoot\Regfiles\Disable_Widgets_Taskbar.reg
+RegImport "> Hiding the chat icon from the taskbar..." $PSScriptRoot\Regfiles\Disable_Chat_Taskbar.reg
+RegImport "> Unhiding hidden files, folders and drives..." $PSScriptRoot\Regfiles\Show_Hidden_Folders.reg
+RegImport "> Enabling file extensions for known file types..." $PSScriptRoot\Regfiles\Show_Extensions_For_Known_File_Types.reg
+RegImport "> Hiding duplicate removable drive entries from the windows explorer navigation pane..." $PSScriptRoot\Regfiles\Hide_duplicate_removable_drives_from_navigation_pane_of_File_Explorer.reg
+RegImport "> Hiding the onedrive folder from the windows explorer navigation pane..." $PSScriptRoot\Regfiles\Hide_Onedrive_Folder.reg
+RegImport "> Hiding the 3D objects folder from the windows explorer navigation pane..." $PSScriptRoot\Regfiles\Hide_3D_Objects_Folder.reg
+RegImport "> Hiding the music folder from the windows explorer navigation pane..." $PSScriptRoot\Regfiles\Hide_Music_folder.reg
+RegImport "> Hiding 'Include in library' in the context menu..." $PSScriptRoot\Regfiles\Disable_Include_in_library_from_context_menu.reg
+RegImport "> Hiding 'Give access to' in the context menu..." $PSScriptRoot\Regfiles\Disable_Give_access_to_context_menu.reg
+RegImport "> Hiding 'Share' in the context menu..." $PSScriptRoot\Regfiles\Disable_Share_from_context_menu.reg
+
+# Enable WinRM
+winrm quickconfig -q
+winrm set winrm/config/winrs @{MaxMemoryPerShellMB="512"}
+winrm set winrm/config @{MaxTimeoutms="1800000"}
+winrm set winrm/config/service @{AllowUnencrypted="true"}
+winrm set winrm/config/service/auth @{Basic="true"}
+Set-Service -Name WinRM -StartupType "Automatic"
+
+RestartExplorer
+
+(New-Object net.webclient).DownloadFile('https://raw.githubusercontent.com/mandiant/flare-vm/main/install.ps1',"install.ps1")
+Unblock-File .\install.ps1
+Set-ExecutionPolicy Unrestricted -Force
+Invoke-Expression -Command "install.ps1 -customConfig soc.xml -password malware -noWait -noGui"
+
+Write-Output ""
+Write-Output ""
+Write-Output "Script completed successfully!"
