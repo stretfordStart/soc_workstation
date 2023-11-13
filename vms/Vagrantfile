@@ -16,19 +16,28 @@ Vagrant.configure("2") do |config|
       sudo apt-get update
       sudo apt-get upgrade -y
 
-      # Install gnome desktop environment
-      sudo apt-get install -y gnome-core
+      # Install gnome desktop environment if not already installed
+      if [ -z $(dpkg -l | grep gnome-core) ]; then
+        sudo apt-get install -y gnome-core
+      fi
 
-      # Install VSCode
-      sudo snap install --classic code
+      # Install VSCode if not already installed
+      if [ -z $(which code) ]; then
+        sudo snap install --classic code
+      fi
 
-      # Add user remnux with password malware
-      sudo useradd -m -p $(openssl passwd -1 malware) remnux
+      # Check if the remnux user exists
+      if ! id "remnux" &>/dev/null; then
+        # Add user remnux with password malware
+        sudo useradd -m -p $(openssl passwd -1 malware) remnux
+      fi
 
-      # Install and enable qemu-guest-agent
-      sudo apt-get install -y qemu-guest-agent
-      sudo systemctl enable qemu-guest-agent
-      sudo systemctl start qemu-guest-agent
+      # Install and enable qemu-guest-agent if not already installed
+      if [ -z $(dpkg -l | grep qemu-guest-agent) ]; then
+        sudo apt-get install -y qemu-guest-agent
+        sudo systemctl enable qemu-guest-agent
+        sudo systemctl start qemu-guest-agent
+      fi
 
       # Set locales
       sudo apt-get install -y language-pack-en
@@ -44,7 +53,7 @@ Vagrant.configure("2") do |config|
         mv remnux-cli remnux
         chmod +x remnux
         sudo mv remnux /usr/local/bin
-        sudo -u remnux remnux install
+        sudo -u remnux remnux install --user=remnux --mode=cloud
       else
         echo "Hashes do not match. Exiting."
       fi
