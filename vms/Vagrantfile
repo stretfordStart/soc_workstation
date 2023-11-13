@@ -2,6 +2,12 @@ Vagrant.configure("2") do |config|
   # Use a generic Ubuntu 20.04 image
   config.vm.box = "generic/ubuntu2004"
 
+  config.vm.provider "libvirt" do |libv|
+    libv.driver = "kvm"
+    libv.memory = 8192
+    libv.cpus = 2
+  end
+
   # Combined shell tasks
   config.vm.provision "shell", inline: <<-SHELL
     sudo apt-get update
