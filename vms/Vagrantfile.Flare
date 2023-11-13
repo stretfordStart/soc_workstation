@@ -32,10 +32,10 @@ Vagrant.configure("2") do |config|
       Uninstall-WindowsFeature -Name Windows-Defender
 
       # Set keyboard layout to Swiss German
-      sudo localectl set-keymap ch
+      Set-WinUserLanguageList -LanguageList 'de-CH' -Force
 
       # Set time format to 24-hour
-      sudo timedatectl set-time-format 24h
+      Set-ItemProperty -Path 'HKCU:\Control Panel\International' -Name 'sTimeFormat' -Value 'HH:mm:ss'
 
       # Download and run Flare-VM installation script
       (New-Object net.webclient).DownloadFile('https://raw.githubusercontent.com/mandiant/flare-vm/main/install.ps1',"install.ps1")
