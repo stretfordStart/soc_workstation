@@ -1,26 +1,56 @@
 Vagrant.configure("2") do |config|
+  # Use a generic Ubuntu 20.04 image
+  config.vm.box = "generic/ubuntu2004"
 
-  config.vm.network "private_network", type: "dhcp", virtualbox__intnet: "private_network_common"
+  # Run updates
+  config.vm.provision "shell", inline: <<-SHELL
+    sudo apt-get update
+    sudo apt-get upgrade -y
+  SHELL
 
-  config.vm.define "Flare" do |flare|
-    flare.vm.box = "stretfordStart/FlareVM"
-    flare.vm.guest = :windows
-    flare.vm.communicator = "winrm"
-    flare.vm.network "private_network", type: "static", virtualbox__intnet: "private_network_flare", ip: "10.0.0.4"
-    flare.vm.network "forwarded_port", guest: 3389, host: 3389, id: "rdp", auto_correct: true
-    flare.vm.provider "virtualbox" do |vb|
-      vb.memory = 8192
-      vb.cpus = 2
-    end
-  end
+  # Install gnome desktop environment
+  config.vm.provision "shell", inline: <<-SHELL
+    sudo apt-get install -y gnome-core
+  SHELL
 
-  config.vm.define "REMnux" do |remnux|
-    remnux.vm.box = "stretfordStart/REMnux"
-    remnux.vm.network "private_network", type: "static", virtualbox__intnet: "private_network_remnux", ip: "10.0.0.3"
-    remnux.vm.provider "virtualbox" do |vb|
-      vb.memory = 8192
-      vb.cpus = 2
-    end
-  end
+  # Install VSCode
+  config.vm.provision "shell", inline: <<-SHELL
+    sudo snap install --classic code
+  SHELL
 
+  # Adjusted REMnux installation
+  config.vm.provision "shell", inline: <<-SHELL
+    wget https://REMnux.org/remnux-cli
+    if [ $(sha256sum remnux-cli | awk '{print $1}') = "88cd35b7807fc66ee8b51ee08d0d2518b2329c471b034ee3201e004c655be8d6" ]; then
+      mv remnux-cli remnux
+      chmod +x remnux
+      sudo mv remnux /usr/local/bin
+      sudo apt-get install -y gnupg
+      sudo remnux install
+    else
+      echo "Hashes do not match. Exiting."
+    fi
+  SHELL
+
+  # Install and enable qemu-guest-agent
+  config.vm.provision "shell", inline: <<-SHELL
+    sudo apt-get install -y qemu-guest-agent
+    sudo systemctl enable qemu-guest-agent
+    sudo systemctl start qemu-guest-agent
+  SHELL
+
+  # Add user remnux with password malware
+  config.vm.provision "shell", inline: <<-SHELL
+    sudo useradd -m -p $(openssl passwd -1 malware) remnux
+  SHELL
+
+  # Set locales
+  config.vm.provision "shell", inline: <<-SHELL
+    sudo apt-get install -y language-pack-en
+    sudo locale-gen en_US.UTF-8
+    sudo update-locale LANG=en_US.UTF-8
+    sudo dpkg-reconfigure --frontend noninteractive locales
+    sudo timedatectl set-timezone Europe/Zurich
+    sudo localectl set-x11-keymap ch
+  SHELL
 end
