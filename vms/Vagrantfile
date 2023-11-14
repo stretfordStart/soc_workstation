@@ -1,0 +1,25 @@
+Vagrant.configure("2") do |config|
+  
+    config.vm.define "FlareVM" do |flare|
+      flare.vm.box = "stretfordStart/FlareVM"
+      flare.vm.guest = :windows
+      flare.disksize.size = '80GB'
+      flare.vm.provider "libvirt" do |lv|
+        lv.driver = "kvm"
+        lv.memory = 8192
+        lv.cpus = 2
+      end
+    end
+  
+    config.vm.define "REMnux" do |remnux|
+      remnux.vm.box = "stretfordStart/REMnux"
+      remnux.disksize.size = '50GB'
+      remnux.vm.provider "libvirt" do |lv|
+        lv.driver = "kvm"
+        lv.memory = 8192
+        lv.cpus = 2
+      end
+    end
+  
+  end
+  
