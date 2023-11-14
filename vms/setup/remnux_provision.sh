@@ -21,7 +21,6 @@ if ! dpkg -l | grep -q qemu-guest-agent; then
     sudo systemctl start qemu-guest-agent
 fi
 
-sudo dpkg-reconfigure --frontend noninteractive locales
 sudo -u remnux localectl set-x11-keymap ch
 sudo timedatectl set-timezone Europe/Zurich
 
