@@ -1,25 +1,25 @@
 Vagrant.configure("2") do |config|
   
     config.vm.define "FlareVM" do |flare|
-      flare.vm.box = "peru/windows-10-enterprise-x64-eval"
+      flare.vm.box = "jborean93/WindowsServer2022"
       flare.vm.box_version = "20231001.01"
       flare.vm.guest = :windows
-      flare.disksize.size = '80GB'
       flare.vm.provider "libvirt" do |lv|
         lv.driver = "kvm"
         lv.memory = 8192
         lv.cpus = 2
+        lv.storage :file, :size => '80G', :type => 'qcow2'
       end
       flare.vm.provision "shell", path: "flare_provision.ps1"
     end
   
     config.vm.define "REMnux" do |remnux|
       remnux.vm.box = "generic/ubuntu2004"
-      remnux.disksize.size = '50GB'
       remnux.vm.provider "libvirt" do |lv|
         lv.driver = "kvm"
         lv.memory = 8192
         lv.cpus = 2
+        lv.storage :file, :size => '50G', :type => 'qcow2'
       end
       remnux.vm.provision "shell", path: "remnux_provision.sh"
     end

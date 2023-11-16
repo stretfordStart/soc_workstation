@@ -93,21 +93,23 @@ cd "$TMP_DIR"
 #Using the awk int function here to truncate the virtual image size to an
 #integer since the fog-libvirt library does not seem to properly handle
 #floating point.
-IMG_SIZES=$(qemu-img info --output=json "$TMP_IMG" | awk '/virtual-size/{s=int($2)/(1024^3); print (s == int(s)) ? s : int(s)+1 }')
-IMG_SIZE=0
-for size in $IMZ_SIZES; do
-    if ((size > IMG_SIZE)); then
-        IMG_SIZE=$size
+IMG_SIZE=$(qemu-img info --output=json "$TMP_IMG" | awk '/virtual-size/{s=int($2)/(1024^3); print (s == int(s)) ? s : int(s)+1 }')
+MAX_SIZE=0
+#Two virtual-size values are returned when using backing images, which would corrupt the metadata.json file,
+#Just using the bigger size
+for size in $IMG_SIZE; do
+    if ((size > MAX_SIZE)); then
+        MAX_SIZE=$size
     fi
 done
 
-echo "{$IMG_SIZE}"
+echo "{$MAX_SIZE}"
 
 cat > metadata.json <<EOF
 {
     "provider": "libvirt",
     "format": "qcow2",
-    "virtual_size": ${IMG_SIZE}
+    "virtual_size": ${MAX_SIZE}
 }
 EOF
 
