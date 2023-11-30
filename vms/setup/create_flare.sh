@@ -115,14 +115,26 @@ EOF
 
 cat > Vagrantfile <<EOF
 Vagrant.configure("2") do |config|
-
-  config.vm.provider :libvirt do |libvirt|
-
-    libvirt.driver = "kvm"
-    libvirt.host = ""
-    libvirt.connect_via_ssh = false
-    libvirt.storage_pool_name = "default"
-
+  config.vm.box "stretfordStart/FlareVM"
+  config.vm.guest = :windows
+  config.vm.communicator = "winrm"
+  config.winrm.username = "vagrant"
+  config.winrm.password = "vagrant"
+  config.vm.boot_timeout = 600
+  config.vm.box_check_update = true
+  config.vm.network :forwarded_port, guest: 3389, host: 3389, id:'rdp', auto_correct: true
+  config.vm.network :forwarded_port, guest: 22, host: 2222, id: 'ssh', auto_correct: true
+ 
+  config.vm.synced_folder ".", "/vagrant", disabled: tre
+  config.vm.provider :libvirt do |lv|
+    lv.clock_offset = 'localtime'
+    lv.cpus = 2
+    lv.memory = 8192
+    lv.disk_bus = "virtio"
+    lv.input :type => "tablet", :bus => "usb"
+    lv.nic_model_type = 'virtio'
+    lv.usb_controller :model => 'qemu-xhci'
+    lv.video_type = 'qxl'
   end
 
 ${VAGRANTFILE_ADD:-}

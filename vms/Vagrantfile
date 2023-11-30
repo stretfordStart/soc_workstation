@@ -7,8 +7,6 @@ Vagrant.configure("2") do |config|
         lv.driver = "kvm"
         lv.memory = 8192
         lv.cpus = 2
-        lv.machine_virtual_size = '80'
-        lv.sotrage :file, :size => '100G', :type => 'qcow2'
       end
     end
   
@@ -18,7 +16,6 @@ Vagrant.configure("2") do |config|
         lv.driver = "kvm"
         lv.memory = 8192
         lv.cpus = 2
-        lv.machine_virtual_size = '50'
       end
       remnux.vm.communicator = "ssh"
       remnux.ssh.insert_key = false
