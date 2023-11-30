@@ -11,7 +11,7 @@ if ! command -v code &>/dev/null; then
 fi
 
 if ! id "remnux" &>/dev/null; then
-    sudo useradd -m -p "$(openssl passwd -1 malware)" remnux
+    sudo useradd -m -p "$(openssl passwd -1 malware)" -s /bin/bash remnux
 fi
 
 
