@@ -6,14 +6,9 @@ if ! dpkg -l | grep -q gnome-core; then
     sudo apt-get install -y gnome-core
 fi
 
-if ! command -v code &>/dev/null; then
-    sudo snap install --classic code
-fi
-
 if ! id "remnux" &>/dev/null; then
     sudo useradd -m -p "$(openssl passwd -1 malware)" -s /bin/bash remnux
 fi
-
 
 if ! dpkg -l | grep -q qemu-guest-agent; then
     sudo apt-get install -y qemu-guest-agent
