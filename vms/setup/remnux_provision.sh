@@ -33,3 +33,7 @@ else
     echo "Invalid REMnux CLI Hash. Exiting"
     exit 1
 fi
+
+# Install VSCode Extensions: Encode-Decode, Prettier, Email, Javascript Snippets
+echo 'mitchdenny.ecdc,esbenp.prettier-vscode,leighlondon.eml,xabikos.javascriptsnippets' | Foreach-Object -Process {code --install-extension $_ --force}
+
