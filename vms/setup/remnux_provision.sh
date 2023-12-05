@@ -10,12 +10,6 @@ if ! id "remnux" &>/dev/null; then
     sudo useradd -m -p "$(openssl passwd -1 malware)" -s /bin/bash remnux
 fi
 
-if ! dpkg -l | grep -q qemu-guest-agent; then
-    sudo apt-get install -y qemu-guest-agent
-    sudo systemctl enable qemu-guest-agent
-    sudo systemctl start qemu-guest-agent
-fi
-
 sudo -u remnux localectl set-x11-keymap ch
 sudo timedatectl set-timezone Europe/Zurich
 
@@ -36,4 +30,3 @@ fi
 
 # Install VSCode Extensions: Encode-Decode, Prettier, Email, Javascript Snippets
 echo 'mitchdenny.ecdc,esbenp.prettier-vscode,leighlondon.eml,xabikos.javascriptsnippets' | Foreach-Object -Process {code --install-extension $_ --force}
-
