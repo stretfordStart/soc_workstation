@@ -1,7 +1,28 @@
 Set-ExecutionPolicy Unrestricted -Scope Process -Force
 [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor 3072
 
-Invoke-Expression ((New-Object Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+# Disable password complexity policy
+secedit /export /cfg $env:TEMP\secpol.cfg
+(gc $env:TEMP\secpol.cfg).replace("PasswordComplexity = 1", "PasswordComplexity = 0") | Out-File $env:TEMP\secpol.cfg
+secedit /configure /db $env:windir\security\local.sdb /cfg $env:TEMP\secpol.cfg /areas SECURITYPOLICY
+rm -force $env:TEMP\secpol.cfg -confirm:$false
+
+# Create user flare with password "malware", password should not expire
+$Password = ConvertTo-SecureString "malware" -AsPlainText -Force
+New-LocalUser -Name "flare" -Password $Password -PasswordNeverExpires $true
+
+# Install windows terminal
+Invoke-WebRequest -Uri "https://aka.ms/terminal" -OutFile "$env:TEMP\WindowsTerminal.msixbundle"
+Add-AppxPackage -Path "$env:TEMP\WindowsTerminal.msixbundle"
+
+# Turn off auto proxy settings
+Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings" -Name ProxyEnable -Value 0
+
+# Install software using chocolatey
+$software = @("firefox", "7zip", "libreoffice-fresh", "thunderbird")
+foreach ($sw in $software) {
+  choco install $sw -y
+}
 
 $wuauserv = Get-Service -Name "wuauserv" -ErrorAction SilentlyContinue
 if ($null -ne $wuauserv) {
