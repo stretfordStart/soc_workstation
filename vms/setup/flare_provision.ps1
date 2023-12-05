@@ -4,7 +4,14 @@ Set-ExecutionPolicy Unrestricted -Scope Process -Force
 # Disable the need for CTRL+ALT+DELETE on the Logonscreen
 Write-Output "Disabling the need for CTRL+ALT+DELETE on the Logonscreen..."
 try {
-  Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name "DisableCAD" -Value 1 -ErrorAction Stop
+  # Export the current security policy settings to a temporary file
+  secedit /export /cfg $env:TEMP\secpol.cfg -ErrorAction Stop
+  # Change the value of the "DisableCAD" setting from 0 to 1 in the temporary file
+  (Get-Content $env:TEMP\secpol.cfg).replace("DisableCAD = 0", "DisableCAD = 1") | Out-File $env:TEMP\secpol.cfg -ErrorAction Stop
+  # Import the modified security policy settings
+  secedit /configure /db $env:windir\security\local.sdb /cfg $env:TEMP\secpol.cfg /areas SECURITYPOLICY -ErrorAction Stop
+  # Delete the temporary file
+  Remove-Item -Path $env:TEMP\secpol.cfg -Force -ErrorAction Stop
   Write-Output "The need for CTRL+ALT+DELETE on the Logonscreen disabled."
 }
 catch {
