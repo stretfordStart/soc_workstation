@@ -1,6 +1,16 @@
 Set-ExecutionPolicy Unrestricted -Scope Process -Force
 [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor 3072
 
+# Disable the need for CTRL+ALT+DELETE on the Logonscreen
+Write-Output "Disabling the need for CTRL+ALT+DELETE on the Logonscreen..."
+try {
+  Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name "DisableCAD" -Value 1 -ErrorAction Stop
+  Write-Output "The need for CTRL+ALT+DELETE on the Logonscreen disabled."
+}
+catch {
+  Write-Output "Failed to disable the need for CTRL+ALT+DELETE on the Logonscreen, Reason: $($_.Exception.Message)"
+}
+
 # Disable password complexity policy
 Write-Output "Disabling password complexity policy..."
 try {
