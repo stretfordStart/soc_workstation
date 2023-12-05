@@ -11,7 +11,7 @@ Vagrant.configure("2") do |config|
   
     config.vm.define "REMnux" do |remnux|
       remnux.vm.box = "stretfordStart/REMnux"
-      remnux.vm.provider "virtualbox" do |lv|
+      remnux.vm.provider "virtualbox" do |vb|
         vb.memory = 8192
         vb.cpus = 2
       end
