@@ -7,6 +7,15 @@ Vagrant.configure("2") do |config|
         vb.memory = 8192
         vb.cpus = 2
       end
+      flare.vm.synced_folder "/home/soc_user/Documents/share", nil, 
+        name: "share", 
+        mount_options: ["perm", "auto", "rw"]
+      flare.vm.network "private_network", 
+        virtualbox__intnet: "Analysis Network", 
+        ip: "10.0.0.4", 
+        netmask: "255.255.255.0", 
+        gateway: "10.0.0.3", 
+        dns: "10.0.0.3"
       flare.vm.provision "shell", path: "flare_provision.ps1"
     end
   
@@ -16,6 +25,14 @@ Vagrant.configure("2") do |config|
         vb.memory = 8192
         vb.cpus = 2
       end
+      remnux.vm.synced_folder "/home/soc_user/Documents/share", nil, 
+        name: "share", 
+        mount_options: ["perm", "auto", "rw"]
+      remnux.vm.network "private_network", 
+        virtualbox__intnet: "Analysis Network", 
+        ip: "10.0.0.3", 
+        netmask: "255.255.255.0"
+      flare.vm.provision "shell", path: "flare_provision.ps1"
       remnux.vm.communicator = "ssh"
       remnux.ssh.insert_key = false
       remnux.vm.provision "shell", path: "remnux_provision.sh"
