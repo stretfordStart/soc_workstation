@@ -32,7 +32,6 @@ Vagrant.configure("2") do |config|
         virtualbox__intnet: "Analysis Network", 
         ip: "10.0.0.3", 
         netmask: "255.255.255.0"
-      flare.vm.provision "shell", path: "flare_provision.ps1"
       remnux.vm.communicator = "ssh"
       remnux.ssh.insert_key = false
       remnux.vm.provision "shell", path: "remnux_provision.sh"
