@@ -73,8 +73,8 @@ foreach ($sw in $software) {
 # Set locale settings to German (Switzerland)
 Write-Output "Setting locale settings to German (Switzerland)..."
 try {
-  Set-WinSystemLocale -SystemLocale de-CH -Force
-  Set-Culture -CultureInfo de-CH -Force
+  Set-WinSystemLocale -SystemLocale de-CH
+  Set-Culture -CultureInfo de-CH
   Write-Output "Locale settings set to de-CH."
 }
 catch {
