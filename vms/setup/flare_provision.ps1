@@ -138,8 +138,7 @@ try {
   (New-Object Net.WebClient).DownloadFile($flareScriptUrl, 'install.ps1') -ErrorAction Stop
   Unblock-File -Path '.\install.ps1' -ErrorAction Stop
   Set-ExecutionPolicy Unrestricted -Force -ErrorAction Stop
-  .\install.ps1 -ErrorAction Stop
-  Write-Output "Flare script downloaded and run."
+  Write-Output "Flare script downloaded."
 }
 catch {
   Write-Output "Failed to download and run flare script, Reason: $($_.Exception.Message)"
