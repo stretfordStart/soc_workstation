@@ -191,6 +191,7 @@
         "echo -e 'if [ $TILIX_ID ] || [ $VTE_VERSION ]; then\n    source /etc/profile.d/vte.sh\nfi' >> /home/soc_user/.bashrc",
         "curl -L \"https://raw.githubusercontent.com/sdushantha/tmpmail/master/tmpmail\" > tmpmail && chmod +x tmpmail",
         "mv tmpmail /usr/bin/",
+        "vagrant plugin install vagrant-vbguest",
         "mkinitcpio -p linux-hardened",
         "grub-mkconfig -o /boot/grub/grub.cfg",
         "mkdir -p /home/soc_user/Downloads",
