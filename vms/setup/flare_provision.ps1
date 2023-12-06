@@ -112,7 +112,7 @@ else {
 Write-Output "Downloading and running flare script..."
 try {
   $flareScriptUrl = 'https://raw.githubusercontent.com/mandiant/flare-vm/main/install.ps1'
-  (New-Object Net.WebClient).DownloadFile($flareScriptUrl, 'install.ps1') -ErrorAction Stop
+  (New-Object Net.WebClient).DownloadFile($flareScriptUrl, 'install.ps1')
   Unblock-File -Path '.\install.ps1'
   Set-ExecutionPolicy Unrestricted -Force -ErrorAction Stop
   Write-Output "Flare script downloaded."
