@@ -4,7 +4,10 @@ Set-ExecutionPolicy Unrestricted -Scope Process -Force
 # Disable the need for CTRL+ALT+DELETE on the Logonscreen
 Write-Output "Disabling the need for CTRL+ALT+DELETE on the Logonscreen..."
 try {
-  Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System' -Name 'DisableCAD' -Value 1
+  secedit /export /cfg $env:TEMP\secpol.cfg
+  (Get-Content $env:TEMP\secpol.cfg).replace("DisableCAD = 0", "DisableCAD = 1") | Out-File $env:TEMP\secpol.cfg -ErrorAction Stop
+  secedit /configure /db $env:windir\security\local.sdb /cfg $env:TEMP\secpol.cfg /areas SECURITYPOLICY
+  Remove-Item -Path $env:TEMP\secpol.cfg -Force -ErrorAction Stop
   Write-Output "The need for CTRL+ALT+DELETE on the Logonscreen disabled."
 }
 catch {
@@ -73,6 +76,17 @@ catch {
   Write-Output "Failed to set locale settings, Reason: $($_.Exception.Message)"
 }
 
+# Set time zone to UTC+1 (Central European Time)
+Write-Output "Setting time zone to Central European Time (UTC+1)..."
+try {
+    $timeZone = 'Central European Standard Time'
+    Set-TimeZone -Id $timeZone -PassThru -ErrorAction Stop
+    Write-Output "Time zone set to $timeZone."
+}
+catch {
+    Write-Output "Failed to set time zone, Reason: $($_.Exception.Message)"
+}
+
 # Set keyboard layout to Swiss (German)
 Write-Output "Setting keyboard layout to Swiss (German)..."
 try {
@@ -81,6 +95,17 @@ try {
 }
 catch {
   Write-Output "Failed to set keyboard layout, Reason: $($_.Exception.Message)"
+}
+
+# Check if basic typing for the keyboard layout is downloaded
+$languageOptions = Get-WinUserLanguageList
+if ($languageOptions[0].InputMethodTips.Count -eq 0) {
+    Write-Output "Basic typing for the keyboard layout is not downloaded. Downloading..."
+    Add-WindowsCapability -Online -Name "Language.Basic~~~de-CH~0.0.1.0" -ErrorAction Stop
+    Write-Output "Basic typing downloaded for the keyboard layout."
+}
+else {
+    Write-Output "Basic typing is already downloaded for the keyboard layout."
 }
 
 # Download and run flare script
@@ -95,5 +120,8 @@ try {
 catch {
   Write-Output "Failed to download and run flare script, Reason: $($_.Exception.Message)"
 }
+
+# Test
+choco uninstall chocolatey -y
 
 & '.\install.ps1' -password malware -noWait -noGui -noChecks -config https://raw.githubusercontent.com/HuskyHacks/PMAT-labs/main/
