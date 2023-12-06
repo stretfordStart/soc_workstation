@@ -30,9 +30,33 @@ manage_backgrounds() {
     cp "$picture_path" "$HOME/.config/background"
 }
 
+# Function to workaround Flameshot issue 
+# https://github.com/flameshot-org/flameshot/issues/3272#issuecomment-1790111469
+setup_flameshot() {
+    local flameshot_script_path="/home/soc_user/flameshot.sh"
+    local flameshot_script_content="#! /bin/sh
+env XDG_SESSION_TYPE= QT_QPA_PLATFORM=wayland /usr/bin/flameshot gui --delay 500"
+
+    # Create the flameshot.sh script
+    echo "$flameshot_script_content" > "$flameshot_script_path"
+    chmod +x "$flameshot_script_path"
+
+    # Remove the current shortcut binding for the "Printscreen" button
+    gsettings set org.gnome.settings-daemon.plugins.media-keys screenshot "''"
+
+    # Add a custom key binding for the "Printscreen" button to run the Flameshot script
+    gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings \
+    "['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/']"
+
+    gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ name 'Flameshot'
+    gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ command "$flameshot_script_path"
+    gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ binding 'Print'
+}
+
 # Main script
 configure_gnome_settings
 manage_backgrounds
+setup_flameshot
 
 firefox https://stretfordstart.github.io/soc_workstation_doc/
 exit
