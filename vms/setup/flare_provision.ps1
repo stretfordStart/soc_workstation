@@ -35,22 +35,11 @@ catch {
 Write-Output "Creating user flare..."
 try {
   $Password = ConvertTo-SecureString "malware" -AsPlainText -Force
-  New-LocalUser -Name "flare" -Password $Password -PasswordNeverExpires $true
+  New-LocalUser -Name "flare" -Password $Password
   Write-Output "User flare created."
 }
 catch {
   Write-Output "Failed to create user flare, Reason: $($_.Exception.Message)"
-}
-
-# Install windows terminal
-Write-Output "Installing windows terminal..."
-try {
-  Invoke-WebRequest -Uri "https://aka.ms/terminal" -OutFile "$env:TEMP\WindowsTerminal.msixbundle"
-  Add-AppxPackage -Path "$env:TEMP\WindowsTerminal.msixbundle"
-  Write-Output "Windows terminal installed."
-}
-catch {
-  Write-Output "Failed to install windows terminal, Reason: $($_.Exception.Message)"
 }
 
 # Turn off auto proxy settings
@@ -65,7 +54,7 @@ catch {
 
 # Install software using chocolatey
 Write-Output "Installing software using chocolatey..."
-$software = @("firefox", "7zip", "libreoffice-fresh", "thunderbird")
+$software = @("firefox", "7zip", "libreoffice-fresh", "thunderbird", "microsoft-windows-terminal")
 foreach ($sw in $software) {
   Write-Output "Installing $sw..."
   try {
@@ -98,52 +87,12 @@ catch {
   Write-Output "Failed to set keyboard layout, Reason: $($_.Exception.Message)"
 }
 
-# Stop and disable wuauserv service
-Write-Output "Stopping and disabling wuauserv service..."
-try {
-  $wuauserv = Get-Service -Name "wuauserv" -ErrorAction Stop
-  if ($null -ne $wuauserv) {
-    Stop-Service -InputObject $wuauserv -Force -ErrorAction Stop
-    Set-Service -InputObject $wuauserv -StartupType Disabled -ErrorAction Stop
-  }
-  Write-Output "wuauserv service stopped and disabled."
-}
-catch {
-  Write-Output "Failed to stop and disable wuauserv service, Reason: $($_.Exception.Message)"
-}
-
-# Disable User Account Control (UAC)
-Write-Output "Disabling User Account Control (UAC)..."
-try {
-  Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name "EnableLUA" -Value 0 -ErrorAction Stop
-  Write-Output "User Account Control (UAC) disabled."
-}
-catch {
-  Write-Output "Failed to disable User Account Control (UAC), Reason: $($_.Exception.Message)"
-}
-
-# Disable Windows Defender features
-Write-Output "Disabling Windows Defender features..."
-try {
-  Set-MpPreference -DisableRealtimeMonitoring $true -ErrorAction Stop
-  Set-MpPreference -MAPSReporting 0 -ErrorAction Stop
-  $defenderRegistryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender"
-  if (Test-Path $defenderRegistryPath) {
-    New-ItemProperty -Path $defenderRegistryPath -Name DisableAntiSpyware -Value 1 -PropertyType DWORD -Force -ErrorAction Stop
-  }
-  Uninstall-WindowsFeature -Name Windows-Defender -ErrorAction Stop
-  Write-Output "Windows Defender features disabled."
-}
-catch {
-  Write-Output "Failed to disable Windows Defender features, Reason: $($_.Exception.Message)"
-}
-
 # Download and run flare script
 Write-Output "Downloading and running flare script..."
 try {
   $flareScriptUrl = 'https://raw.githubusercontent.com/mandiant/flare-vm/main/install.ps1'
   (New-Object Net.WebClient).DownloadFile($flareScriptUrl, 'install.ps1') -ErrorAction Stop
-  Unblock-File -Path '.\install.ps1' -ErrorAction Stop
+  Unblock-File -Path '.\install.ps1'
   Set-ExecutionPolicy Unrestricted -Force -ErrorAction Stop
   Write-Output "Flare script downloaded."
 }
@@ -151,4 +100,4 @@ catch {
   Write-Output "Failed to download and run flare script, Reason: $($_.Exception.Message)"
 }
 
-& '.\install.ps1' -password malware -noWait -noGui -config https://raw.githubusercontent.com/HuskyHacks/PMAT-labs/main/ -Force
+& '.\install.ps1' -password malware -noWait -noGui -noChecks -config https://raw.githubusercontent.com/HuskyHacks/PMAT-labs/main/
