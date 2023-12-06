@@ -32,7 +32,7 @@ manage_backgrounds() {
 
 # Function to workaround Flameshot issue 
 # https://github.com/flameshot-org/flameshot/issues/3272#issuecomment-1790111469
-setup_flameshot() {
+setup_flameshot_keybinding() {
     local flameshot_script_path="/home/soc_user/flameshot.sh"
     local flameshot_script_content="#! /bin/sh
 env XDG_SESSION_TYPE= QT_QPA_PLATFORM=wayland /usr/bin/flameshot gui --delay 500"
@@ -53,10 +53,21 @@ env XDG_SESSION_TYPE= QT_QPA_PLATFORM=wayland /usr/bin/flameshot gui --delay 500
     gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ binding 'Print'
 }
 
+setup_tilix_keybinding() {
+    # Add a custom key binding for opening Tilix with "Super" + "T"
+    gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybindings \
+    "['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/']"
+
+    gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/ name 'Tilix'
+    gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/ command 'tilix'
+    gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/ binding '<Super>t'
+}
+
 # Main script
 configure_gnome_settings
 manage_backgrounds
-setup_flameshot
+setup_flameshot_keybinding
+setup_tilix_keybinding
 
 firefox https://stretfordstart.github.io/soc_workstation_doc/
 exit
