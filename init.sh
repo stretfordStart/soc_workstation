@@ -63,21 +63,11 @@ setup_tilix_keybinding() {
     gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/ binding '<Super>t'
 }
 
-get_analysis_vms() {
-    cd /home/soc_user/soc_workstation/vms
-
-    # Run 'vagrant up' for FlareVM and REMnux in the background
-    (vagrant up FlareVM && vagrant up REMnux) &
-
-    echo "VMs are being brought up. They will be available in a few minutes."
-}
-
 # Main script
 configure_gnome_settings
 manage_backgrounds
 setup_flameshot_keybinding
 setup_tilix_keybinding
-get_analysis_vms
 
 firefox https://stretfordstart.github.io/soc_workstation_doc/ &
 exit
