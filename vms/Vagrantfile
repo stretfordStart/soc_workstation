@@ -6,7 +6,18 @@ Vagrant.configure("2") do |config|
       flare.vm.provider "virtualbox" do |vb|
         vb.memory = 8192
         vb.cpus = 2
+        vb.gui = false  # Disable Remote Display
       end
+      flare.vm.synced_folder ".", "/vagrant", disabled: true
+      flare.vm.synced_folder "/home/soc_user/Documents/share", nil, 
+        name: "share", 
+        mount_options: ["perm", "auto", "rw"]
+      flare.vm.network "private_network", 
+        virtualbox__intnet: "Analysis Network", 
+        ip: "10.0.0.4", 
+        netmask: "255.255.255.0", 
+        gateway: "10.0.0.3", 
+        dns: "10.0.0.3"
     end
   
     config.vm.define "REMnux" do |remnux|
@@ -14,7 +25,19 @@ Vagrant.configure("2") do |config|
       remnux.vm.provider "virtualbox" do |vb|
         vb.memory = 8192
         vb.cpus = 2
+        vb.gui = false  # Disable Remote Display
+        vb.graphics_controller = "vmsvga"
       end
+      remnux.vm.synced_folder ".", "/vagrant", disabled: true
+      remnux.vm.synced_folder "/home/soc_user/Documents/share", nil, 
+        name: "share", 
+        mount_options: ["perm", "auto", "rw"]
+      remnux.vm.network "private_network", 
+        virtualbox__intnet: "Analysis Network", 
+        ip: "10.0.0.3", 
+        netmask: "255.255.255.0"
+      remnux.vm.communicator = "ssh"
+      remnux.ssh.insert_key = false
     end
   
   end
