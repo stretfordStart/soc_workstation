@@ -170,7 +170,7 @@
 		"xdg-desktop-portal-gnome",
 		"xdg-user-dirs-gtk"
     ],
-    "parallel downloads": 0,
+    "parallel downloads": 20,
     "profile_config": {
         "gfx_driver": "All open-source",
         "greeter": null,
