@@ -55,8 +55,9 @@ Vagrant.configure("2") do |config|
       kali.vm.synced_folder "/home/soc_user/Documents/share", nil, 
         name: "share", 
         mount_options: ["perm", "auto", "rw"]
-      remnux.vm.communicator = "ssh"
-      remnux.ssh.insert_key = false
+      kali.vm.communicator = "ssh"
+      kali.ssh.insert_key = false
+    end
   
   end
   
