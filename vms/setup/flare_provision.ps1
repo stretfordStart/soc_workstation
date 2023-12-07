@@ -53,7 +53,7 @@ catch {
 
 # Install software using chocolatey
 Write-Output "Installing software using chocolatey..."
-$software = @("firefox", "7zip", "libreoffice-fresh")
+$software = @("firefox", "7zip","thunderbird" ,"libreoffice-fresh")
 foreach ($sw in $software) {
   Write-Output "Installing $sw..."
   try {
