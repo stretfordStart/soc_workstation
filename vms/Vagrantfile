@@ -41,6 +41,22 @@ Vagrant.configure("2") do |config|
       remnux.vm.communicator = "ssh"
       remnux.ssh.insert_key = false
     end
+
+ config.vm.define "Kali" do |kali|
+      kali.vm.box = "kalilinux/rolling"
+      remnux.vm.provider "virtualbox" do |vb|
+        vb.memory = 8192
+        vb.cpus = 2
+        vb.gui = false  # Disable Remote Display
+        vb.graphics_controller = "vmsvga"
+        vb.name = "Kali"
+      end
+      kali.vm.synced_folder ".", "/vagrant", disabled: true
+      kali.vm.synced_folder "/home/soc_user/Documents/share", nil, 
+        name: "share", 
+        mount_options: ["perm", "auto", "rw"]
+      remnux.vm.communicator = "ssh"
+      remnux.ssh.insert_key = false
   
   end
   
