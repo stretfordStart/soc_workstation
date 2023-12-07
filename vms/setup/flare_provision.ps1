@@ -108,7 +108,7 @@ else {
     Write-Output "Basic typing is already downloaded for the keyboard layout."
 }
 
-# Download and run flare script
+# Download Flare script
 Write-Output "Downloading and running flare script..."
 try {
   $flareScriptUrl = 'https://raw.githubusercontent.com/mandiant/flare-vm/main/install.ps1'
@@ -121,30 +121,4 @@ catch {
   Write-Output "Failed to download and run flare script, Reason: $($_.Exception.Message)"
 }
 
-# Test
-# Uninstall Chocolatey
-Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-choco uninstall chocolatey -y
-
-# Remove Chocolatey-related files and directories
-Remove-Item -Path "$env:ProgramData\chocolatey" -Recurse -Force
-Remove-Item -Path "$env:SystemDrive\chocolatey" -Recurse -Force
-Remove-Item -Path "$env:ChocolateyInstall" -Recurse -Force
-Remove-Item -Path "$env:ChocolateyToolsLocation" -Recurse -Force
-Remove-Item -Path "$env:UserProfile\.chocolatey" -Recurse -Force
-Remove-Item -Path "$env:UserProfile\chocolatey*" -Recurse -Force
-
-# Remove Chocolatey environment variables
-[Environment]::SetEnvironmentVariable('ChocolateyInstall', $null, [System.EnvironmentVariableTarget]::Machine)
-[Environment]::SetEnvironmentVariable('ChocolateyToolsLocation', $null, [System.EnvironmentVariableTarget]::Machine)
-
-# Clean up Chocolatey-related registry entries
-Remove-Item -Path "HKLM:\SOFTWARE\WOW6432Node\Chocolatey" -Recurse -Force
-Remove-Item -Path "HKLM:\SOFTWARE\Chocolatey" -Recurse -Force
-
-# Uninstall Chocolatey from PATH (requires restarting PowerShell)
-$env:Path = [System.Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVariableTarget]::Machine)
-
-Write-Host "Chocolatey has been uninstalled."
-
-& '.\install.ps1' -password malware -noWait -noGui -noChecks -config https://raw.githubusercontent.com/HuskyHacks/PMAT-labs/main/
+# & '.\install.ps1' -password malware -noWait -noGui -noChecks -config https://raw.githubusercontent.com/HuskyHacks/PMAT-labs/main/
