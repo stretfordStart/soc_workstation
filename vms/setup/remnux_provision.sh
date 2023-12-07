@@ -28,5 +28,13 @@ else
     exit 1
 fi
 
+file_path="/etc/inetsim/inetsim.conf"
+
+# Use sed to replace lines in the file
+sed -i 's/#start_service dns/start_service dns/g' "$file_path"
+sed -i 's/#start_service irc/start_service irc/g' "$file_path"
+sed -i 's/#service_bind_address/service_bind_address    0.0.0.0/g' "$file_path"
+sed -i 's/#dns_default_ip/dns_default_ip    10.0.0.3/g' "$file_path"
+
 # Install VSCode Extensions: Encode-Decode, Prettier, Email, Javascript Snippets
 echo 'mitchdenny.ecdc,esbenp.prettier-vscode,leighlondon.eml,xabikos.javascriptsnippets' | Foreach-Object -Process {code --install-extension $_ --force}
