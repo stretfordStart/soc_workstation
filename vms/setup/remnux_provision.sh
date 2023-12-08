@@ -38,3 +38,17 @@ sed -i 's/#dns_default_ip/dns_default_ip    10.0.0.3/g' "$file_path"
 
 # Install VSCode Extensions: Encode-Decode, Prettier, Email, Javascript Snippets
 echo 'mitchdenny.ecdc,esbenp.prettier-vscode,leighlondon.eml,xabikos.javascriptsnippets' | Foreach-Object -Process {code --install-extension $_ --force}
+
+# Get the MAC address of eth1
+mac_address=$(ip link show eth1 | awk '/link/ {print $2}')
+
+# Check if the MAC address is obtained successfully
+if [ -z "$mac_address" ]; then
+    echo "Error: Failed to retrieve MAC address for eth1."
+    exit 1
+fi
+
+# Set the MAC address in /etc/udev/rules.d/10-network.rules
+echo "SUBSYSTEM==\"net\", ACTION==\"add\", ATTR{address}==\"$mac_address\", NAME=\"eth1\"" | sudo tee /etc/udev/rules.d/10-network.rules > /dev/null
+
+sudo udevadm control --reload-rules
