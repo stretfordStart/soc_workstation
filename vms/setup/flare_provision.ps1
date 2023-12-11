@@ -109,7 +109,7 @@ else {
 }
 
 # Download Flare script
-Write-Output "Downloading and running flare script..."
+Write-Output "Downloading Flare script..."
 try {
   $flareScriptUrl = 'https://raw.githubusercontent.com/mandiant/flare-vm/main/install.ps1'
   (New-Object Net.WebClient).DownloadFile($flareScriptUrl, 'install.ps1')
@@ -118,7 +118,7 @@ try {
   Write-Output "Flare script downloaded."
 }
 catch {
-  Write-Output "Failed to download and run flare script, Reason: $($_.Exception.Message)"
+  Write-Output "Failed to download Flare script, Reason: $($_.Exception.Message)"
 }
 
 # & '.\install.ps1' -password malware -noWait -noGui -noChecks -config https://raw.githubusercontent.com/HuskyHacks/PMAT-labs/main/
