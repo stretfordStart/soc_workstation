@@ -3,7 +3,7 @@ sudo apt-get update
 sudo apt-get upgrade -y
 
 if ! dpkg -l | grep -q gnome-core; then
-    sudo apt-get install -y gnome-core
+    sudo apt-get install -y gnome-core nautilus
 fi
 
 if ! id "remnux" &>/dev/null; then
