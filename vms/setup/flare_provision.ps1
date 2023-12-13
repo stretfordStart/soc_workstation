@@ -121,4 +121,4 @@ catch {
   Write-Output "Failed to download Flare script, Reason: $($_.Exception.Message)"
 }
 
-# & '.\install.ps1' -password malware -noWait -noGui -noChecks -config https://raw.githubusercontent.com/HuskyHacks/PMAT-labs/main/
+# & '.\install.ps1' -password malware -noWait -noGui -noChecks -config https://raw.githubusercontent.com/stretfordStart/soc_workstation/main/vms/setup/
